@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Macro Calendar — w/c 7 Sep 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Consolas','Menlo','Courier New',monospace; background: #070c15; color: #c0ccdc; min-height: 100vh; }
+  #header { background: #09111e; border-bottom: 2px solid #182840; padding: 12px 14px 10px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,.8); }
+  #meta { font-size: 9px; letter-spacing: .18em; color: #243850; text-transform: uppercase; margin-bottom: 3px; }
+  #title { font-size: 17px; font-weight: 800; color: #d8e8f8; }
+  #title span { font-size: 11px; font-weight: 400; color: #385870; }
+  #note { font-size: 9.5px; color: #243850; margin-top: 3px; margin-bottom: 8px; }
+  #week-btns { display: flex; gap: 5px; }
+  .week-btn { padding: 5px 12px; border-radius: 3px; cursor: pointer; font-family: inherit; font-size: 11px; border: 1.5px solid #182840; background: transparent; color: #385870; transition: all .15s; }
+  .week-btn.active { border-color: #4888c0; background: #122a4a; color: #d8e8f8; font-weight: 700; }
+  #top-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  #region-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+  .region-btn { padding: 3px 10px; border-radius: 3px; cursor: pointer; font-family: inherit; font-size: 10px; border: 1.5px solid #1a2d3a; background: transparent; color: #4a7090; transition: all .12s; }
+  .region-btn.active { color: #e0f0ff; font-weight: 700; }
+  #clear-btn { padding: 3px 10px; border-radius: 3px; cursor: pointer; font-family: inherit; font-size: 10px; border: 1.5px solid #8a3030; background: #3a1010; color: #f08080; display: none; }
+  #country-row { display: flex; flex-wrap: wrap; gap: 3px; }
+  .country-btn { display: inline-flex; align-items: center; gap: 3px; font-size: 8.5px; padding: 2px 7px; border-radius: 3px; font-weight: 700; cursor: pointer; transition: all .1s; font-family: inherit; border: 1px solid #162030; }
+  .country-btn.on { opacity: 1; }
+  .country-btn.off { opacity: 0.35; background: #0d1624 !important; color: #2a4060 !important; border-color: #162030 !important; }
+  #grid-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 840px; }
+  table.narrow { min-width: 480px; }
+  th { background: #080f1c; padding: 7px 5px; font-size: 11px; color: #5090d0; border-bottom: 2px solid #182840; border-left: 1px solid #101824; text-align: center; font-weight: 700; font-family: inherit; }
+  th.bst { font-size: 8.5px; color: #1a2c40; border-left: none; }
+  td { border-bottom: 1px solid #0d1720; border-left: 1px solid #0f1826; vertical-align: top; padding: 0; }
+  td.bst { padding: 4px 2px; font-size: 8.5px; text-align: center; white-space: nowrap; border-right: 1px solid #152538; border-left: none; }
+  tr.has-events td.bst { color: #4878a0; font-weight: 700; }
+  tr.no-events td.bst { color: #101e2e; }
+  tr.has-events { background: #0c182a; }
+  tr.has-events.night { background: #0a1424; }
+  tr.no-events { background: #080c16; }
+  tr.collapsed { background: #060a12; }
+  tr.collapsed td { height: 5px; }
+  td.cell { padding: 3px 4px; }
+  td.cell.empty { padding: 0; }
+  .event { border-radius: 3px; padding: 3px 6px; margin-bottom: 2px; font-size: 10.5px; line-height: 1.4; font-weight: 500; border-left: 3px solid rgba(255,255,255,.15); word-break: break-word; }
+  .event:last-child { margin-bottom: 0; }
+  .event-time { font-size: 9px; font-weight: 800; opacity: .75; margin-right: 4px; }
+  #footer { padding: 7px 14px; border-top: 1px solid #182840; font-size: 7.5px; color: #162030; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px; }
+</style>
+</head>
+<body>
+<div id="header">
+  <div id="top-row">
+    <div>
+      <div id="meta">Global Macro Calendar · All times BST · Today: Mon 7 Sep 2026 · Source: LiteFinance / Investrade / search</div>
+      <div id="title">MARKET CALENDAR <span id="dates-label"></span></div>
+      <div id="note"></div>
+    </div>
+    <div id="week-btns"></div>
+  </div>
+  <div id="region-row"></div>
+  <div id="country-row"></div>
+</div>
+<div id="grid-wrap">
+  <table id="cal-table"><thead id="cal-head"></thead><tbody id="cal-body"></tbody></table>
+</div>
+<div id="footer">
+  <span>⚠ For information only · Not investment advice · US/CA Labor Day holiday Mon 7 Sep — markets closed · Source: LiteFinance weekly calendar + web search (TE paste unavailable this session)</span>
+  <span>Built: Mon 7 Sep 2026</span>
+</div>
+<script>
+const C={US:{bg:"#1a3567",tx:"#fff",f:"🇺🇸"},UK:{bg:"#b22234",tx:"#fff",f:"🇬🇧"},CN:{bg:"#de2910",tx:"#FFD700",f:"🇨🇳"},IN:{bg:"#FF9933",tx:"#111",f:"🇮🇳"},JP:{bg:"#bc002d",tx:"#fff",f:"🇯🇵"},KR:{bg:"#003478",tx:"#fff",f:"🇰🇷"},AU:{bg:"#00247D",tx:"#C8A800",f:"🇦🇺"},CA:{bg:"#D80621",tx:"#fff",f:"🇨🇦"},DE:{bg:"#1a1a1a",tx:"#FFD700",f:"🇩🇪"},FR:{bg:"#002395",tx:"#fff",f:"🇫🇷"},EA:{bg:"#003399",tx:"#FFD700",f:"🇪🇺"},ES:{bg:"#c60b1e",tx:"#FFD700",f:"🇪🇸"},IT:{bg:"#009246",tx:"#fff",f:"🇮🇹"},TR:{bg:"#E30A17",tx:"#fff",f:"🇹🇷"},ZA:{bg:"#007A4D",tx:"#fff",f:"🇿🇦"},ID:{bg:"#CE1126",tx:"#fff",f:"🇮🇩"},BR:{bg:"#009C3B",tx:"#FEDD00",f:"🇧🇷"},MX:{bg:"#006847",tx:"#fff",f:"🇲🇽"},RU:{bg:"#003580",tx:"#fff",f:"🇷🇺"},SG:{bg:"#EF3340",tx:"#fff",f:"🇸🇬"},SA:{bg:"#006C35",tx:"#fff",f:"🇸🇦"},CB:{bg:"#3a2800",tx:"#FFD700",f:"🏦"},EARN:{bg:"#1a5c35",tx:"#90f0a0",f:"💹"}};
+const REGIONS={ASIA:["JP","CN","KR","AU","IN","ID","SG","SA"],EUROPE:["UK","DE","FR","EA","ES","IT","TR","RU"],AMERICAS:["US","CA","BR","MX"],AFRICA:["ZA"],GLOBAL:["CB","EARN"]};
+const REGION_BTNS=[{id:"ALL",label:"ALL",color:"#2a4a7a"},{id:"ASIA",label:"🌏 ASIA",color:"#6b2a2a"},{id:"EUROPE",label:"🌍 EUROPE",color:"#2a3a6b"},{id:"AMERICAS",label:"🌎 AMERICAS",color:"#2a6b3a"},{id:"CB",label:"🏦 CB",color:"#5a4000"},{id:"EARN",label:"💹 EARNINGS",color:"#1a5c35"}];
+const WEEKS=[
+  {label:"THIS WEEK",dates:"7–11 Sep 2026",note:"TODAY = Mon 7 Sep · US/CA Labor Day — markets closed · JP GDP Final Q2 overnight · Tue 8: quiet · Wed 9: CN CPI (Aug) · Thu 10: ECB hike to 2.50% + DE CPI Final + US PPI · Fri 11: US CPI (Aug) + Michigan Sentiment prel",cols:["Mon 7 Sep","Tue 8 Sep","Wed 9 Sep","Thu 10 Sep","Fri 11 Sep"]},
+  {label:"NEXT WEEK",dates:"14–18 Sep 2026",note:"Tue 15: US Retail Sales + Empire State · Wed 16: UK CPI + US Industrial Production · Thu 17: BOE decision + US Jobless Claims + Philly Fed · Fri 18: UK Retail Sales + CA CPI",cols:["Mon 14 Sep","Tue 15 Sep","Wed 16 Sep","Thu 17 Sep","Fri 18 Sep"]},
+];
+const E={
+  "W1-0":[ // Mon 7 Sep — US/CA closed
+    {h:0,m:50,c:"JP",t:"GDP Final Q2 — prel +0.3% QoQ / +1.1% annualised; Q1 was +0.5%"},
+    {h:7,m:0,c:"DE",t:"Industrial Production (Jul) — +0.2% MoM (prev -0.9%)"},
+    {h:7,m:0,c:"ZA",t:"Foreign Exchange Reserves (Aug) — $73.45B"},
+    {h:7,m:45,c:"FR",t:"Foreign Exchange Reserves (Aug) — €357.05B"},
+  ],
+  "W1-1":[ // Tue 8 Sep
+    {h:7,m:0,c:"UK",t:"Halifax House Prices (Aug) — prev 0% MoM / +0.1% YoY"},
+    {h:11,m:0,c:"US",t:"NFIB Small Business Optimism (Aug) — prev 95.9"},
+    {h:13,m:15,c:"US",t:"ADP Employment Change Weekly — prev 33K"},
+  ],
+  "W1-2":[ // Wed 9 Sep
+    {h:1,m:30,c:"CN",t:"CPI (Aug) — prev +0.5% YoY; PPI prev -3.4% YoY"},
+    {h:7,m:0,c:"UK",t:"GDP MoM (Jul) — prev +0.3%; Industrial Production (Jul)"},
+    {h:12,m:0,c:"US",t:"MBA Mortgage Applications (Sep/04) — prev -1%"},
+    {h:13,m:30,c:"CA",t:"Labour Productivity Q2 — prev -0.5% QoQ"},
+    {h:15,m:30,c:"US",t:"EIA Crude Oil Stocks Change (Sep/04)"},
+  ],
+  "W1-3":[ // Thu 10 Sep — ECB hike + DE CPI + US PPI
+    {h:6,m:0,c:"DE",t:"CPI Final (Aug) — 2.8% YoY confirmed (flash was 2.8%)"},
+    {h:12,m:15,c:"CB",t:"ECB Rate Decision — hike to 2.50% (deposit) / 2.65% (refi); fully priced"},
+    {h:12,m:30,c:"US",t:"PPI (Aug) — prev 0% MoM / +4.7% YoY; core prev +4.6% YoY"},
+    {h:12,m:30,c:"US",t:"Initial Jobless Claims (Sep/06) — prev 203K"},
+    {h:12,m:45,c:"EA",t:"ECB Press Conference"},
+    {h:14,m:0,c:"US",t:"Wholesale Inventories Final (Jul) — prev +0.3% MoM"},
+  ],
+  "W1-4":[ // Fri 11 Sep — US CPI + Michigan
+    {h:12,m:30,c:"US",t:"CPI (Aug) — prev 3.4% YoY; core prev 2.5% YoY (key print for Fed)"},
+    {h:14,m:0,c:"US",t:"Michigan Consumer Sentiment Prel (Sep) — prev 51.7"},
+  ],
+  // NEXT WEEK — sourced from general knowledge, flag as estimates
+  "W2-0":[ // Mon 14 Sep
+    {h:2,m:30,c:"CN",t:"House Price Index (Aug) — prev -3.5% YoY"},
+    {h:3,m:0,c:"CN",t:"Industrial Production / Retail Sales / FAI (Aug)"},
+    {h:3,m:0,c:"CN",t:"Unemployment Rate (Aug) — prev 5.1%"},
+    {h:9,m:0,c:"DE",t:"ZEW Economic Sentiment (Sep)"},
+    {h:10,m:0,c:"EA",t:"ZEW Economic Sentiment (Sep)"},
+  ],
+  "W2-1":[ // Tue 15 Sep
+    {h:7,m:0,c:"UK",t:"Labour Market — Unemployment / Earnings (Jul)"},
+    {h:7,m:0,c:"UK",t:"Claimant Count Change (Aug)"},
+    {h:13,m:30,c:"US",t:"Retail Sales (Aug) — prev -0.1% MoM (control group)"},
+    {h:13,m:30,c:"US",t:"NY Empire State Manufacturing Index (Sep) — prev 8.1"},
+    {h:13,m:30,c:"US",t:"Import / Export Prices (Aug)"},
+    {h:14,m:15,c:"US",t:"Industrial Production (Aug) — prev +0.1% MoM"},
+    {h:15,m:0,c:"US",t:"Business Inventories (Jul)"},
+    {h:15,m:0,c:"US",t:"NAHB Housing Market Index (Sep)"},
+  ],
+  "W2-2":[ // Wed 16 Sep
+    {h:2,m:15,c:"CN",t:"Loan Prime Rate — 1Y hold 3.0% / 5Y hold 3.5%"},
+    {h:7,m:0,c:"UK",t:"CPI (Aug) — prev 3.3% YoY; core 2.6% YoY"},
+    {h:9,m:0,c:"EA",t:"CPI Final (Aug) — 3.3% YoY confirmed"},
+    {h:12,m:0,c:"US",t:"MBA Mortgage Applications (Sep/11)"},
+    {h:13,m:30,c:"US",t:"Housing Starts / Building Permits (Aug)"},
+    {h:15,m:30,c:"US",t:"EIA Crude Oil Stocks Change (Sep/11)"},
+  ],
+  "W2-3":[ // Thu 17 Sep — BOE decision
+    {h:12,m:0,c:"CB",t:"BOE Rate Decision — hold 3.75% expected; MPC vote"},
+    {h:13,m:30,c:"US",t:"Initial Jobless Claims (Sep/13)"},
+    {h:13,m:30,c:"US",t:"Philadelphia Fed Manufacturing Index (Sep)"},
+    {h:13,m:30,c:"US",t:"Current Account Q2"},
+    {h:15,m:0,c:"US",t:"CB Leading Index (Aug)"},
+  ],
+  "W2-4":[ // Fri 18 Sep
+    {h:0,m:30,c:"JP",t:"National CPI (Aug) — core prev 1.9% YoY"},
+    {h:7,m:0,c:"UK",t:"Retail Sales (Aug) — prev -0.3% MoM"},
+    {h:13,m:30,c:"CA",t:"CPI (Aug) — prev 3.2% YoY"},
+    {h:13,m:30,c:"CA",t:"Retail Sales (Jul)"},
+    {h:15,m:0,c:"US",t:"Michigan Consumer Sentiment Final (Sep)"},
+    {h:18,m:0,c:"US",t:"Baker Hughes Rig Count"},
+  ],
+};
+const pad=n=>String(n).padStart(2,'0');
+const HLABELS=Array.from({length:24},(_,i)=>i===0?'Midnight':i===12?'Noon':`${pad(i)}:00`);
+const ALL_CODES=Object.keys(C);
+let activeWk=0,activeRegion='ALL',selectedCodes=new Set();
+function getActiveCodes(){if(selectedCodes.size>0)return selectedCodes;if(activeRegion==='ALL')return new Set(ALL_CODES);if(activeRegion==='CB')return new Set(['CB']);if(activeRegion==='EARN')return new Set(['EARN']);return new Set([...(REGIONS[activeRegion]||[]),'CB','EARN']);}
+function render(){
+  const week=WEEKS[activeWk],days=week.cols.length,activeCodes=getActiveCodes();
+  document.getElementById('dates-label').textContent=week.dates;
+  document.getElementById('note').textContent=week.note;
+  document.querySelectorAll('.week-btn').forEach((b,i)=>b.classList.toggle('active',i===activeWk));
+  document.querySelectorAll('.region-btn').forEach(b=>{const id=b.dataset.id,isActive=activeRegion===id&&selectedCodes.size===0;b.classList.toggle('active',isActive);b.style.borderColor=isActive?b.dataset.color:'#1a2d3a';b.style.background=isActive?b.dataset.color+'55':'transparent';});
+  const cb=document.getElementById('clear-btn');if(cb){cb.style.display=selectedCodes.size>0?'inline-block':'none';cb.textContent=`✕ clear (${selectedCodes.size})`;}
+  document.querySelectorAll('.country-btn').forEach(b=>{const k=b.dataset.code,isOn=selectedCodes.size>0?selectedCodes.has(k):activeCodes.has(k);b.classList.toggle('on',isOn);b.classList.toggle('off',!isOn);if(isOn){b.style.background=C[k].bg+'dd';b.style.color=C[k].tx;b.style.borderColor=C[k].bg;}});
+  const table=document.getElementById('cal-table');table.className=days===1?'narrow':'';
+  let cg=table.querySelector('colgroup');if(!cg){cg=document.createElement('colgroup');table.insertBefore(cg,table.firstChild);}
+  cg.innerHTML=`<col style="width:60px">`+week.cols.map(()=>`<col style="width:calc((100% - 60px)/${days})">`).join('');
+  document.getElementById('cal-head').innerHTML=`<tr><th class="bst">BST</th>${week.cols.map(d=>`<th>${d}</th>`).join('')}</tr>`;
+  const body=document.getElementById('cal-body');body.innerHTML='';
+  HLABELS.forEach((label,h)=>{
+    const rows=Array.from({length:days},(_,d)=>(E[`W${activeWk+1}-${d}`]||[]).filter(e=>e.h===h&&activeCodes.has(e.c)));
+    const hasAny=rows.some(r=>r.length>0),isNight=h<7||h>=19;
+    if(!hasAny&&h>=2&&h<=5){const tr=document.createElement('tr');tr.className='collapsed';tr.innerHTML=`<td></td>${Array(days).fill('<td></td>').join('')}`;body.appendChild(tr);return;}
+    const tr=document.createElement('tr');tr.className=hasAny?(isNight?'has-events night':'has-events'):'no-events';
+    const bstTd=document.createElement('td');bstTd.className='bst';bstTd.textContent=label;tr.appendChild(bstTd);
+    rows.forEach(evs=>{const td=document.createElement('td');td.className=evs.length?'cell':'cell empty';evs.forEach(ev=>{const col=C[ev.c]||{bg:'#182030',tx:'#fff',f:'•'};const div=document.createElement('div');div.className='event';div.style.background=col.bg;div.style.color=col.tx;div.innerHTML=`<span class="event-time">${pad(ev.h)}:${pad(ev.m)}</span>${col.f} ${ev.t}`;td.appendChild(div);});tr.appendChild(td);});
+    body.appendChild(tr);
+  });
+}
+document.addEventListener('DOMContentLoaded', function() {
+  // Build week switcher buttons
+  const wbEl=document.getElementById('week-btns');
+  WEEKS.forEach((w,i)=>{const b=document.createElement('button');b.className='week-btn';b.textContent=w.label;b.onclick=()=>{activeWk=i;render();};wbEl.appendChild(b);});
+
+  // Build region buttons + clear button (all into region-row)
+  const rrEl=document.getElementById('region-row');
+  REGION_BTNS.forEach(rb=>{const b=document.createElement('button');b.className='region-btn';b.dataset.id=rb.id;b.dataset.color=rb.color;b.textContent=rb.label;b.onclick=()=>{activeRegion=rb.id;selectedCodes=new Set();render();};rrEl.appendChild(b);});
+  const clrBtn=document.createElement('button');clrBtn.id='clear-btn';clrBtn.style.cssText='padding:3px 10px;border-radius:3px;cursor:pointer;font-family:inherit;font-size:10px;border:1.5px solid #8a3030;background:#3a1010;color:#f08080;display:none;';clrBtn.onclick=()=>{selectedCodes=new Set();activeRegion='ALL';render();};rrEl.appendChild(clrBtn);
+
+  // Build country toggle buttons
+  const crEl=document.getElementById('country-row');
+  Object.entries(C).forEach(([k,v])=>{const b=document.createElement('button');b.className='country-btn on';b.dataset.code=k;b.style.background=v.bg+'dd';b.style.color=v.tx;b.style.borderColor=v.bg;b.innerHTML=`${v.f} ${k}`;b.onclick=()=>{if(selectedCodes.has(k))selectedCodes.delete(k);else selectedCodes.add(k);if(selectedCodes.size===0)activeRegion='ALL';else activeRegion=null;render();};crEl.appendChild(b);});
+
+  // Initial render — all DOM elements now exist
+  render();
+}); // DOMContentLoaded
+</script>
+</body>
+</html>
