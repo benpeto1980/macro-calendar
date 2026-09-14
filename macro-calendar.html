@@ -1,197 +1,6886 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Macro Calendar — w/c 7 Sep 2026</title>
+<title>Macro Calendar</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Consolas','Menlo','Courier New',monospace; background: #070c15; color: #c0ccdc; min-height: 100vh; }
-  #header { background: #09111e; border-bottom: 2px solid #182840; padding: 12px 14px 10px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,.8); }
-  #meta { font-size: 9px; letter-spacing: .18em; color: #243850; text-transform: uppercase; margin-bottom: 3px; }
-  #title { font-size: 17px; font-weight: 800; color: #d8e8f8; }
-  #title span { font-size: 11px; font-weight: 400; color: #385870; }
-  #note { font-size: 9.5px; color: #243850; margin-top: 3px; margin-bottom: 8px; }
-  #week-btns { display: flex; gap: 5px; }
-  .week-btn { padding: 5px 12px; border-radius: 3px; cursor: pointer; font-family: inherit; font-size: 11px; border: 1.5px solid #182840; background: transparent; color: #385870; transition: all .15s; }
-  .week-btn.active { border-color: #4888c0; background: #122a4a; color: #d8e8f8; font-weight: 700; }
-  #top-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-  #region-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
-  .region-btn { padding: 3px 10px; border-radius: 3px; cursor: pointer; font-family: inherit; font-size: 10px; border: 1.5px solid #1a2d3a; background: transparent; color: #4a7090; transition: all .12s; }
-  .region-btn.active { color: #e0f0ff; font-weight: 700; }
-  #clear-btn { padding: 3px 10px; border-radius: 3px; cursor: pointer; font-family: inherit; font-size: 10px; border: 1.5px solid #8a3030; background: #3a1010; color: #f08080; display: none; }
-  #country-row { display: flex; flex-wrap: wrap; gap: 3px; }
-  .country-btn { display: inline-flex; align-items: center; gap: 3px; font-size: 8.5px; padding: 2px 7px; border-radius: 3px; font-weight: 700; cursor: pointer; transition: all .1s; font-family: inherit; border: 1px solid #162030; }
-  .country-btn.on { opacity: 1; }
-  .country-btn.off { opacity: 0.35; background: #0d1624 !important; color: #2a4060 !important; border-color: #162030 !important; }
-  #grid-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 840px; }
-  table.narrow { min-width: 480px; }
-  th { background: #080f1c; padding: 7px 5px; font-size: 11px; color: #5090d0; border-bottom: 2px solid #182840; border-left: 1px solid #101824; text-align: center; font-weight: 700; font-family: inherit; }
-  th.bst { font-size: 8.5px; color: #1a2c40; border-left: none; }
-  td { border-bottom: 1px solid #0d1720; border-left: 1px solid #0f1826; vertical-align: top; padding: 0; }
-  td.bst { padding: 4px 2px; font-size: 8.5px; text-align: center; white-space: nowrap; border-right: 1px solid #152538; border-left: none; }
-  tr.has-events td.bst { color: #4878a0; font-weight: 700; }
-  tr.no-events td.bst { color: #101e2e; }
-  tr.has-events { background: #0c182a; }
-  tr.has-events.night { background: #0a1424; }
-  tr.no-events { background: #080c16; }
-  tr.collapsed { background: #060a12; }
-  tr.collapsed td { height: 5px; }
-  td.cell { padding: 3px 4px; }
-  td.cell.empty { padding: 0; }
-  .event { border-radius: 3px; padding: 3px 6px; margin-bottom: 2px; font-size: 10.5px; line-height: 1.4; font-weight: 500; border-left: 3px solid rgba(255,255,255,.15); word-break: break-word; }
-  .event:last-child { margin-bottom: 0; }
-  .event-time { font-size: 9px; font-weight: 800; opacity: .75; margin-right: 4px; }
-  #footer { padding: 7px 14px; border-top: 1px solid #182840; font-size: 7.5px; color: #162030; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px; }
+  :root{
+    color-scheme: light;
+    --bg: #f4f6f8;
+    --surface: #ffffff;
+    --surface-2: #eef1f5;
+    --surface-3: #e4e8ee;
+    --border: #d9dfe6;
+    --border-strong: #c3cbd5;
+    --text-primary: #151a21;
+    --text-secondary: #5a6472;
+    --text-muted: #8994a3;
+    --accent: #2c4a6e;
+    --accent-ink: #ffffff;
+    --row-alt: #fafbfc;
+    --cb-red: #cc2424;
+    --shadow: 0 1px 2px rgba(20,26,33,.06), 0 4px 14px rgba(20,26,33,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --bg: #12151a;
+      --surface: #181c22;
+      --surface-2: #1e232a;
+      --surface-3: #262c34;
+      --border: #2b323b;
+      --border-strong: #3a424d;
+      --text-primary: #eef1f5;
+      --text-secondary: #a5afbc;
+      --text-muted: #717c8a;
+      --accent: #6f9fd6;
+      --accent-ink: #0d1116;
+      --row-alt: #1b1f25;
+      --cb-red: #ff5c5c;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 4px 14px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --bg: #12151a;
+    --surface: #181c22;
+    --surface-2: #1e232a;
+    --surface-3: #262c34;
+    --border: #2b323b;
+    --border-strong: #3a424d;
+    --text-primary: #eef1f5;
+    --text-secondary: #a5afbc;
+    --text-muted: #717c8a;
+    --accent: #6f9fd6;
+    --accent-ink: #0d1116;
+    --row-alt: #1b1f25;
+    --cb-red: #ff5c5c;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 4px 14px rgba(0,0,0,.35);
+  }
+
+  *{ box-sizing: border-box; }
+  body{
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .num{ font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace; font-variant-numeric: tabular-nums; }
+
+  .wrap{ max-width: 1520px; margin: 0 auto; padding: 0 20px 48px; }
+
+  header.top{ padding: 28px 20px 0; max-width: 1520px; margin: 0 auto; }
+  .title-row{ display:flex; align-items:baseline; justify-content:space-between; gap: 16px; flex-wrap: wrap; }
+  h1{ font-size: 26px; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+  .subtitle{ color: var(--text-secondary); font-size: 13.5px; margin-top: 4px; }
+  .subtitle .clock{ color: var(--text-primary); font-weight: 600; }
+  .subtitle .cbdot{ display:inline-block; width:9px; height:9px; border-radius:2px; border: 2px solid var(--cb-red); vertical-align: -1px; margin-right:2px; }
+
+  .week-tabs{ display:flex; gap: 6px; background: var(--surface-2); border:1px solid var(--border); padding: 4px; border-radius: 10px; }
+  .week-tab{ appearance:none; border:none; background:transparent; color: var(--text-secondary); font-family: inherit; font-size: 13.5px; font-weight: 600; padding: 8px 16px; border-radius: 7px; cursor:pointer; display:flex; flex-direction:column; align-items:center; line-height:1.35; }
+  .week-tab .r{ font-weight: 500; font-size: 11px; color: var(--text-muted); }
+  .week-tab.active{ background: var(--accent); color: var(--accent-ink); box-shadow: var(--shadow); }
+  .week-tab.active .r{ color: var(--accent-ink); opacity: .85; }
+
+  .filterbar{ position: sticky; top: 0; z-index: 30; background: var(--bg); padding: 16px 20px 12px; margin: 0 auto; max-width: 1520px; border-bottom: 1px solid var(--border); }
+  .filter-row{ display:flex; align-items:center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .filter-row:last-child{ margin-bottom: 0; }
+  .filter-label{ font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); width: 70px; flex: 0 0 auto; }
+  .chip-btn{ appearance:none; cursor:pointer; font-family:inherit; font-weight: 600; font-size: 12.5px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary); display:inline-flex; align-items:center; gap: 6px; transition: box-shadow .1s ease, transform .05s ease; }
+  .chip-btn:hover{ border-color: var(--border-strong); }
+  .chip-btn:active{ transform: scale(.97); }
+  .chip-btn .dot{ width:8px; height:8px; border-radius:50%; background: var(--dot); flex: 0 0 auto; }
+  .chip-btn .n{ color: var(--text-muted); font-weight: 500; }
+  .chip-btn.active{ border-color: transparent; box-shadow: var(--shadow); }
+  .chip-btn.active .n{ opacity: .72; }
+  .chip-btn.reset{ background: transparent; border-style: dashed; }
+
+  .search-wrap{ display:flex; align-items:center; gap:8px; margin-left: auto; }
+  #search{ font-family: inherit; font-size: 13px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-primary); width: 220px; }
+  #search:focus{ outline: 2px solid var(--accent); outline-offset: 1px; }
+  #count{ font-size: 12.5px; color: var(--text-muted); white-space: nowrap; }
+  #count b{ color: var(--text-primary); }
+
+  .weekpane{ display:none; }
+  .weekpane.active{ display:block; }
+
+  .cal-scroll{ overflow-x: auto; margin-top: 18px; border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); background: var(--surface); }
+  table.cal{ border-collapse: collapse; width: 100%; min-width: 1180px; table-layout: fixed; }
+  table.cal.dayview{ min-width: 0; }
+  table.cal col.hourcol{ width: 78px; }
+
+  thead th{ position: sticky; top: 0; z-index: 20; background: var(--surface-2); border-bottom: 1px solid var(--border-strong); padding: 10px 8px; text-align: left; font-weight: 600; }
+  thead th.hourhead{ z-index: 21; left:0; position: sticky; background: var(--surface-2); }
+  thead .dname{ font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; }
+  thead .ddate{ font-size: 14.5px; font-weight: 700; margin-top:1px; }
+  thead th.weekend .ddate{ color: var(--text-secondary); }
+  thead th.dayheader{ cursor: pointer; }
+  thead th.dayheader:hover{ background: var(--surface-3); }
+  thead .expand-hint{ font-size: 9.5px; color: var(--text-muted); opacity: 0; transition: opacity .1s ease; margin-top: 2px; }
+  thead th.dayheader:hover .expand-hint{ opacity: 1; }
+
+  tbody th.hourlabel{ position: sticky; left: 0; z-index: 10; background: var(--surface); border-right: 1px solid var(--border-strong); font-size: 11.5px; color: var(--text-muted); font-weight: 600; text-align: right; padding: 6px 10px; vertical-align: top; white-space: nowrap; }
+  tr.allday th.hourlabel{ color: var(--text-secondary); }
+  tr.earnrow td, tr.earnrow th.hourlabel{ background: var(--surface-2) !important; }
+  tr.earnrow td{ border-bottom: 2px solid var(--border-strong); }
+  .earn-block{
+    background: #2a2f38; color: #f2f4f7; border-radius: 6px; padding: 5px 7px; font-size: 11.5px; line-height: 1.35;
+    border: 2px solid transparent;
+  }
+  .earn-block.hidden{ display:none; }
+  .earn-top{ display:flex; align-items:center; gap: 6px; opacity: .9; }
+  .earn-ticker{ font-family: "IBM Plex Mono", monospace; font-size: 10px; font-weight: 700; }
+  .earn-session{ font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; background: rgba(255,255,255,.18); padding: 1px 5px; border-radius: 3px; }
+  .earn-company{ margin-top: 2px; font-weight: 600; }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .earn-block{ background: #3a4150; } }
+  :root[data-theme="dark"] .earn-block{ background: #3a4150; }
+  tbody tr td{ border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); padding: 4px; vertical-align: top; }
+  tbody tr td:last-child{ border-right: none; }
+  tbody tr:nth-child(odd) td, tbody tr:nth-child(odd) th.hourlabel{ background: var(--row-alt); }
+  tr.allday td, tr.allday th.hourlabel{ background: var(--surface-3) !important; }
+  tr.allday td{ border-bottom: 2px solid var(--border-strong); }
+
+  .cellstack{ display:flex; flex-direction:column; gap: 4px; min-height: 22px; }
+
+  /* week-view condensed block */
+  .wk-block{
+    background: var(--cc-color, var(--surface-2)); color: var(--cc-text, var(--text-primary));
+    border-radius: 6px; padding: 5px 7px; font-size: 11.5px; line-height: 1.35;
+    border: 2px solid transparent; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
+  }
+  .wk-block.hidden{ display:none; }
+  .wk-block.cb{ border-color: var(--cb-red); }
+  .wk-top{ display:flex; align-items:center; gap: 6px; opacity: .85; }
+  .wk-cc{ font-family: "IBM Plex Mono", monospace; font-size: 9.5px; font-weight: 700; }
+  .wk-time{ font-family: "IBM Plex Mono", monospace; font-size: 9.5px; }
+  .wk-label{ margin-top: 2px; font-weight: 600; }
+
+  /* day-view detailed block */
+  .day-block{
+    background: var(--cc-color, var(--surface-2)); color: var(--cc-text, var(--text-primary));
+    border-radius: 7px; padding: 8px 10px; font-size: 12.5px; line-height: 1.4;
+    border: 2px solid transparent; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
+  }
+  .day-block.hidden{ display:none; }
+  .day-block.cb{ border-color: var(--cb-red); }
+  .day-top{ display:flex; align-items:center; gap: 8px; opacity: .8; }
+  .day-cc{ font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 700; }
+  .day-time{ font-family: "IBM Plex Mono", monospace; font-size: 10.5px; }
+  .day-name{ margin-top: 3px; font-weight: 600; font-size: 13px; }
+  .day-vals{ margin-top: 4px; font-family: "IBM Plex Mono", monospace; font-size: 11px; display:flex; flex-wrap:wrap; gap: 8px; opacity: .92; }
+  .day-vals b{ font-weight: 600; margin-right: 2px; opacity: .75; }
+
+  .cb-tag{ font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; background: var(--cb-red); color: #fff; padding: 1px 5px; border-radius: 3px; margin-left: auto; }
+
+  /* day view mode */
+  #dayView{ display:none; margin-top: 18px; }
+  #dayView.active{ display:block; }
+  .dayview-bar{ display:flex; align-items:center; gap: 12px; margin-bottom: 4px; flex-wrap: wrap; }
+  .backbtn{ appearance:none; cursor:pointer; font-family:inherit; font-weight:600; font-size: 13px; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-primary); }
+  .backbtn:hover{ background: var(--surface-2); }
+  .navbtn{ appearance:none; cursor:pointer; font-family:inherit; font-weight:700; font-size: 15px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-primary); }
+  .navbtn:hover{ background: var(--surface-2); }
+  .navbtn:disabled{ opacity:.35; cursor:default; }
+  .dayview-title{ font-size: 17px; font-weight: 700; margin-left: 4px; }
+  table.cal.dayview col.hourcol{ width: 90px; }
+
+  .empty-msg{ text-align:center; padding: 40px 12px; color: var(--text-muted); font-size: 13px; }
+
+  footer{ max-width: 1520px; margin: 28px auto 0; padding: 0 20px; color: var(--text-muted); font-size: 12px; line-height: 1.6; }
+
+  @media (max-width: 720px){
+    .filter-label{ width: auto; }
+    .search-wrap{ margin-left: 0; width: 100%; }
+    #search{ flex:1; width:auto; }
+  }
 </style>
-</head>
-<body>
-<div id="header">
-  <div id="top-row">
+
+<header class="top">
+  <div class="title-row">
     <div>
-      <div id="meta">Global Macro Calendar · All times BST · Today: Mon 7 Sep 2026 · Source: LiteFinance / Investrade / search</div>
-      <div id="title">MARKET CALENDAR <span id="dates-label"></span></div>
-      <div id="note"></div>
+      <h1>Macro Calendar</h1>
+      <div class="subtitle">Two-week economic release schedule &middot; <span class="clock">London time, UTC+1</span> &middot; <span class="cbdot"></span>red border = central bank announcement &middot; double-click a day to expand</div>
     </div>
-    <div id="week-btns"></div>
+    <div class="week-tabs" id="weekTabs"></div>
   </div>
-  <div id="region-row"></div>
-  <div id="country-row"></div>
+</header>
+
+<div class="filterbar">
+  <div class="filter-row" id="regionRow"></div>
+  <div class="filter-row" id="countryRow"></div>
+  <div class="filter-row">
+    <button class="chip-btn active" id="earnToggle" style="--dot:#2a2f38">
+      <span class="dot"></span>Equities earnings <span class="n" id="earnCount"></span>
+    </button>
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="Search release name…" autocomplete="off">
+      <span id="count"></span>
+    </div>
+  </div>
 </div>
-<div id="grid-wrap">
-  <table id="cal-table"><thead id="cal-head"></thead><tbody id="cal-body"></tbody></table>
+
+<div class="wrap">
+  <div id="weekPanes"></div>
+  <div id="dayView">
+    <div class="dayview-bar">
+      <button class="backbtn" id="backBtn">&larr; Back to week</button>
+      <button class="navbtn" id="prevDayBtn" title="Previous day">&larr;</button>
+      <button class="navbtn" id="nextDayBtn" title="Next day">&rarr;</button>
+      <div class="dayview-title" id="dayViewTitle"></div>
+    </div>
+    <div class="cal-scroll">
+      <table class="cal dayview">
+        <colgroup><col class="hourcol"><col></colgroup>
+        <thead><tr><th class="hourhead"></th><th id="dayViewHead"></th></tr></thead>
+        <tbody id="dayViewBody"></tbody>
+      </table>
+    </div>
+  </div>
 </div>
-<div id="footer">
-  <span>⚠ For information only · Not investment advice · US/CA Labor Day holiday Mon 7 Sep — markets closed · Source: LiteFinance weekly calendar + web search (TE paste unavailable this session)</span>
-  <span>Built: Mon 7 Sep 2026</span>
-</div>
-<script>
-const C={US:{bg:"#1a3567",tx:"#fff",f:"🇺🇸"},UK:{bg:"#b22234",tx:"#fff",f:"🇬🇧"},CN:{bg:"#de2910",tx:"#FFD700",f:"🇨🇳"},IN:{bg:"#FF9933",tx:"#111",f:"🇮🇳"},JP:{bg:"#bc002d",tx:"#fff",f:"🇯🇵"},KR:{bg:"#003478",tx:"#fff",f:"🇰🇷"},AU:{bg:"#00247D",tx:"#C8A800",f:"🇦🇺"},CA:{bg:"#D80621",tx:"#fff",f:"🇨🇦"},DE:{bg:"#1a1a1a",tx:"#FFD700",f:"🇩🇪"},FR:{bg:"#002395",tx:"#fff",f:"🇫🇷"},EA:{bg:"#003399",tx:"#FFD700",f:"🇪🇺"},ES:{bg:"#c60b1e",tx:"#FFD700",f:"🇪🇸"},IT:{bg:"#009246",tx:"#fff",f:"🇮🇹"},TR:{bg:"#E30A17",tx:"#fff",f:"🇹🇷"},ZA:{bg:"#007A4D",tx:"#fff",f:"🇿🇦"},ID:{bg:"#CE1126",tx:"#fff",f:"🇮🇩"},BR:{bg:"#009C3B",tx:"#FEDD00",f:"🇧🇷"},MX:{bg:"#006847",tx:"#fff",f:"🇲🇽"},RU:{bg:"#003580",tx:"#fff",f:"🇷🇺"},SG:{bg:"#EF3340",tx:"#fff",f:"🇸🇬"},SA:{bg:"#006C35",tx:"#fff",f:"🇸🇦"},CB:{bg:"#3a2800",tx:"#FFD700",f:"🏦"},EARN:{bg:"#1a5c35",tx:"#90f0a0",f:"💹"}};
-const REGIONS={ASIA:["JP","CN","KR","AU","IN","ID","SG","SA"],EUROPE:["UK","DE","FR","EA","ES","IT","TR","RU"],AMERICAS:["US","CA","BR","MX"],AFRICA:["ZA"],GLOBAL:["CB","EARN"]};
-const REGION_BTNS=[{id:"ALL",label:"ALL",color:"#2a4a7a"},{id:"ASIA",label:"🌏 ASIA",color:"#6b2a2a"},{id:"EUROPE",label:"🌍 EUROPE",color:"#2a3a6b"},{id:"AMERICAS",label:"🌎 AMERICAS",color:"#2a6b3a"},{id:"CB",label:"🏦 CB",color:"#5a4000"},{id:"EARN",label:"💹 EARNINGS",color:"#1a5c35"}];
-const WEEKS=[
-  {label:"THIS WEEK",dates:"7–11 Sep 2026",note:"TODAY = Mon 7 Sep · US/CA Labor Day — markets closed · JP GDP Final Q2 overnight · Tue 8: quiet · Wed 9: CN CPI (Aug) · Thu 10: ECB hike to 2.50% + DE CPI Final + US PPI · Fri 11: US CPI (Aug) + Michigan Sentiment prel",cols:["Mon 7 Sep","Tue 8 Sep","Wed 9 Sep","Thu 10 Sep","Fri 11 Sep"]},
-  {label:"NEXT WEEK",dates:"14–18 Sep 2026",note:"Tue 15: US Retail Sales + Empire State · Wed 16: UK CPI + US Industrial Production · Thu 17: BOE decision + US Jobless Claims + Philly Fed · Fri 18: UK Retail Sales + CA CPI",cols:["Mon 14 Sep","Tue 15 Sep","Wed 16 Sep","Thu 17 Sep","Fri 18 Sep"]},
-];
-const E={
-  "W1-0":[ // Mon 7 Sep — US/CA closed
-    {h:0,m:50,c:"JP",t:"GDP Final Q2 — prel +0.3% QoQ / +1.1% annualised; Q1 was +0.5%"},
-    {h:7,m:0,c:"DE",t:"Industrial Production (Jul) — +0.2% MoM (prev -0.9%)"},
-    {h:7,m:0,c:"ZA",t:"Foreign Exchange Reserves (Aug) — $73.45B"},
-    {h:7,m:45,c:"FR",t:"Foreign Exchange Reserves (Aug) — €357.05B"},
-  ],
-  "W1-1":[ // Tue 8 Sep
-    {h:7,m:0,c:"UK",t:"Halifax House Prices (Aug) — prev 0% MoM / +0.1% YoY"},
-    {h:11,m:0,c:"US",t:"NFIB Small Business Optimism (Aug) — prev 95.9"},
-    {h:13,m:15,c:"US",t:"ADP Employment Change Weekly — prev 33K"},
-  ],
-  "W1-2":[ // Wed 9 Sep
-    {h:1,m:30,c:"CN",t:"CPI (Aug) — prev +0.5% YoY; PPI prev -3.4% YoY"},
-    {h:7,m:0,c:"UK",t:"GDP MoM (Jul) — prev +0.3%; Industrial Production (Jul)"},
-    {h:12,m:0,c:"US",t:"MBA Mortgage Applications (Sep/04) — prev -1%"},
-    {h:13,m:30,c:"CA",t:"Labour Productivity Q2 — prev -0.5% QoQ"},
-    {h:15,m:30,c:"US",t:"EIA Crude Oil Stocks Change (Sep/04)"},
-  ],
-  "W1-3":[ // Thu 10 Sep — ECB hike + DE CPI + US PPI
-    {h:6,m:0,c:"DE",t:"CPI Final (Aug) — 2.8% YoY confirmed (flash was 2.8%)"},
-    {h:12,m:15,c:"CB",t:"ECB Rate Decision — hike to 2.50% (deposit) / 2.65% (refi); fully priced"},
-    {h:12,m:30,c:"US",t:"PPI (Aug) — prev 0% MoM / +4.7% YoY; core prev +4.6% YoY"},
-    {h:12,m:30,c:"US",t:"Initial Jobless Claims (Sep/06) — prev 203K"},
-    {h:12,m:45,c:"EA",t:"ECB Press Conference"},
-    {h:14,m:0,c:"US",t:"Wholesale Inventories Final (Jul) — prev +0.3% MoM"},
-  ],
-  "W1-4":[ // Fri 11 Sep — US CPI + Michigan
-    {h:12,m:30,c:"US",t:"CPI (Aug) — prev 3.4% YoY; core prev 2.5% YoY (key print for Fed)"},
-    {h:14,m:0,c:"US",t:"Michigan Consumer Sentiment Prel (Sep) — prev 51.7"},
-  ],
-  // NEXT WEEK — sourced from general knowledge, flag as estimates
-  "W2-0":[ // Mon 14 Sep
-    {h:2,m:30,c:"CN",t:"House Price Index (Aug) — prev -3.5% YoY"},
-    {h:3,m:0,c:"CN",t:"Industrial Production / Retail Sales / FAI (Aug)"},
-    {h:3,m:0,c:"CN",t:"Unemployment Rate (Aug) — prev 5.1%"},
-    {h:9,m:0,c:"DE",t:"ZEW Economic Sentiment (Sep)"},
-    {h:10,m:0,c:"EA",t:"ZEW Economic Sentiment (Sep)"},
-  ],
-  "W2-1":[ // Tue 15 Sep
-    {h:7,m:0,c:"UK",t:"Labour Market — Unemployment / Earnings (Jul)"},
-    {h:7,m:0,c:"UK",t:"Claimant Count Change (Aug)"},
-    {h:13,m:30,c:"US",t:"Retail Sales (Aug) — prev -0.1% MoM (control group)"},
-    {h:13,m:30,c:"US",t:"NY Empire State Manufacturing Index (Sep) — prev 8.1"},
-    {h:13,m:30,c:"US",t:"Import / Export Prices (Aug)"},
-    {h:14,m:15,c:"US",t:"Industrial Production (Aug) — prev +0.1% MoM"},
-    {h:15,m:0,c:"US",t:"Business Inventories (Jul)"},
-    {h:15,m:0,c:"US",t:"NAHB Housing Market Index (Sep)"},
-  ],
-  "W2-2":[ // Wed 16 Sep
-    {h:2,m:15,c:"CN",t:"Loan Prime Rate — 1Y hold 3.0% / 5Y hold 3.5%"},
-    {h:7,m:0,c:"UK",t:"CPI (Aug) — prev 3.3% YoY; core 2.6% YoY"},
-    {h:9,m:0,c:"EA",t:"CPI Final (Aug) — 3.3% YoY confirmed"},
-    {h:12,m:0,c:"US",t:"MBA Mortgage Applications (Sep/11)"},
-    {h:13,m:30,c:"US",t:"Housing Starts / Building Permits (Aug)"},
-    {h:15,m:30,c:"US",t:"EIA Crude Oil Stocks Change (Sep/11)"},
-  ],
-  "W2-3":[ // Thu 17 Sep — BOE decision
-    {h:12,m:0,c:"CB",t:"BOE Rate Decision — hold 3.75% expected; MPC vote"},
-    {h:13,m:30,c:"US",t:"Initial Jobless Claims (Sep/13)"},
-    {h:13,m:30,c:"US",t:"Philadelphia Fed Manufacturing Index (Sep)"},
-    {h:13,m:30,c:"US",t:"Current Account Q2"},
-    {h:15,m:0,c:"US",t:"CB Leading Index (Aug)"},
-  ],
-  "W2-4":[ // Fri 18 Sep
-    {h:0,m:30,c:"JP",t:"National CPI (Aug) — core prev 1.9% YoY"},
-    {h:7,m:0,c:"UK",t:"Retail Sales (Aug) — prev -0.3% MoM"},
-    {h:13,m:30,c:"CA",t:"CPI (Aug) — prev 3.2% YoY"},
-    {h:13,m:30,c:"CA",t:"Retail Sales (Jul)"},
-    {h:15,m:0,c:"US",t:"Michigan Consumer Sentiment Final (Sep)"},
-    {h:18,m:0,c:"US",t:"Baker Hughes Rig Count"},
-  ],
-};
-const pad=n=>String(n).padStart(2,'0');
-const HLABELS=Array.from({length:24},(_,i)=>i===0?'Midnight':i===12?'Noon':`${pad(i)}:00`);
-const ALL_CODES=Object.keys(C);
-let activeWk=0,activeRegion='ALL',selectedCodes=new Set();
-function getActiveCodes(){if(selectedCodes.size>0)return selectedCodes;if(activeRegion==='ALL')return new Set(ALL_CODES);if(activeRegion==='CB')return new Set(['CB']);if(activeRegion==='EARN')return new Set(['EARN']);return new Set([...(REGIONS[activeRegion]||[]),'CB','EARN']);}
-function render(){
-  const week=WEEKS[activeWk],days=week.cols.length,activeCodes=getActiveCodes();
-  document.getElementById('dates-label').textContent=week.dates;
-  document.getElementById('note').textContent=week.note;
-  document.querySelectorAll('.week-btn').forEach((b,i)=>b.classList.toggle('active',i===activeWk));
-  document.querySelectorAll('.region-btn').forEach(b=>{const id=b.dataset.id,isActive=activeRegion===id&&selectedCodes.size===0;b.classList.toggle('active',isActive);b.style.borderColor=isActive?b.dataset.color:'#1a2d3a';b.style.background=isActive?b.dataset.color+'55':'transparent';});
-  const cb=document.getElementById('clear-btn');if(cb){cb.style.display=selectedCodes.size>0?'inline-block':'none';cb.textContent=`✕ clear (${selectedCodes.size})`;}
-  document.querySelectorAll('.country-btn').forEach(b=>{const k=b.dataset.code,isOn=selectedCodes.size>0?selectedCodes.has(k):activeCodes.has(k);b.classList.toggle('on',isOn);b.classList.toggle('off',!isOn);if(isOn){b.style.background=C[k].bg+'dd';b.style.color=C[k].tx;b.style.borderColor=C[k].bg;}});
-  const table=document.getElementById('cal-table');table.className=days===1?'narrow':'';
-  let cg=table.querySelector('colgroup');if(!cg){cg=document.createElement('colgroup');table.insertBefore(cg,table.firstChild);}
-  cg.innerHTML=`<col style="width:60px">`+week.cols.map(()=>`<col style="width:calc((100% - 60px)/${days})">`).join('');
-  document.getElementById('cal-head').innerHTML=`<tr><th class="bst">BST</th>${week.cols.map(d=>`<th>${d}</th>`).join('')}</tr>`;
-  const body=document.getElementById('cal-body');body.innerHTML='';
-  HLABELS.forEach((label,h)=>{
-    const rows=Array.from({length:days},(_,d)=>(E[`W${activeWk+1}-${d}`]||[]).filter(e=>e.h===h&&activeCodes.has(e.c)));
-    const hasAny=rows.some(r=>r.length>0),isNight=h<7||h>=19;
-    if(!hasAny&&h>=2&&h<=5){const tr=document.createElement('tr');tr.className='collapsed';tr.innerHTML=`<td></td>${Array(days).fill('<td></td>').join('')}`;body.appendChild(tr);return;}
-    const tr=document.createElement('tr');tr.className=hasAny?(isNight?'has-events night':'has-events'):'no-events';
-    const bstTd=document.createElement('td');bstTd.className='bst';bstTd.textContent=label;tr.appendChild(bstTd);
-    rows.forEach(evs=>{const td=document.createElement('td');td.className=evs.length?'cell':'cell empty';evs.forEach(ev=>{const col=C[ev.c]||{bg:'#182030',tx:'#fff',f:'•'};const div=document.createElement('div');div.className='event';div.style.background=col.bg;div.style.color=col.tx;div.innerHTML=`<span class="event-time">${pad(ev.h)}:${pad(ev.m)}</span>${col.f} ${ev.t}`;td.appendChild(div);});tr.appendChild(td);});
-    body.appendChild(tr);
-  });
+
+<footer>
+  Built from a Trading Economics economic calendar export. Release times shown as published, already in London time (UTC+1) &mdash; no conversion applied. Saudi Arabia, Russia and Argentina releases are excluded. Week view groups same-hour, same-country releases into one block with no forecast detail &mdash; double-click a day header to open the full single-day view with Actual / Previous / Consensus / Forecast for every release. Central bank rate decisions, MPC/FOMC minutes and press conferences are outlined in red.
+</footer>
+
+<script id="cal-data" type="application/json">
+{
+"countryMeta":{
+"US":{
+"name":"United States",
+"region":"americas",
+"color":"#266ec6",
+"text":"#ffffff"
+},
+"CA":{
+"name":"Canada",
+"region":"americas",
+"color":"#99beeb",
+"text":"#14181f"
+},
+"MX":{
+"name":"Mexico",
+"region":"latam",
+"color":"#ee7d50",
+"text":"#14181f"
+},
+"BR":{
+"name":"Brazil",
+"region":"latam",
+"color":"#e95a21",
+"text":"#14181f"
+},
+"CO":{
+"name":"Colombia",
+"region":"latam",
+"color":"#f29f7e",
+"text":"#14181f"
+},
+"CL":{
+"name":"Chile",
+"region":"latam",
+"color":"#f7c1ab",
+"text":"#14181f"
+},
+"GB":{
+"name":"United Kingdom",
+"region":"uk",
+"color":"#433598",
+"text":"#ffffff"
+},
+"EA":{
+"name":"Euro Area",
+"region":"eurozone",
+"color":"#189d6e",
+"text":"#14181f"
+},
+"DE":{
+"name":"Germany",
+"region":"eurozone",
+"color":"#1cb880",
+"text":"#14181f"
+},
+"FR":{
+"name":"France",
+"region":"eurozone",
+"color":"#20d293",
+"text":"#14181f"
+},
+"IT":{
+"name":"Italy",
+"region":"eurozone",
+"color":"#4de3ad",
+"text":"#14181f"
+},
+"ES":{
+"name":"Spain",
+"region":"eurozone",
+"color":"#32dfa1",
+"text":"#14181f"
+},
+"EU":{
+"name":"European Union",
+"region":"eurozone",
+"color":"#67e8ba",
+"text":"#14181f"
+},
+"CH":{
+"name":"Switzerland",
+"region":"europe_other",
+"color":"#e56a98",
+"text":"#14181f"
+},
+"NO":{
+"name":"Norway",
+"region":"europe_other",
+"color":"#ea84aa",
+"text":"#14181f"
+},
+"SE":{
+"name":"Sweden",
+"region":"europe_other",
+"color":"#ee9ebc",
+"text":"#14181f"
+},
+"CZ":{
+"name":"Czechia",
+"region":"europe_other",
+"color":"#f1b1c9",
+"text":"#14181f"
+},
+"PL":{
+"name":"Poland",
+"region":"europe_other",
+"color":"#f1b1c9",
+"text":"#14181f"
+},
+"HU":{
+"name":"Hungary",
+"region":"europe_other",
+"color":"#f1b1c9",
+"text":"#14181f"
+},
+"JP":{
+"name":"Japan",
+"region":"apac",
+"color":"#e03736",
+"text":"#ffffff"
+},
+"CN":{
+"name":"China",
+"region":"apac",
+"color":"#e86968",
+"text":"#14181f"
+},
+"KR":{
+"name":"South Korea",
+"region":"apac",
+"color":"#ed8a89",
+"text":"#14181f"
+},
+"SG":{
+"name":"Singapore",
+"region":"apac",
+"color":"#e55857",
+"text":"#14181f"
+},
+"AU":{
+"name":"Australia",
+"region":"apac",
+"color":"#ea7979",
+"text":"#14181f"
+},
+"NZ":{
+"name":"New Zealand",
+"region":"apac",
+"color":"#f2abaa",
+"text":"#14181f"
+},
+"ID":{
+"name":"Indonesia",
+"region":"apac",
+"color":"#f09a9a",
+"text":"#14181f"
+},
+"IN":{
+"name":"India",
+"region":"apac",
+"color":"#e34847",
+"text":"#14181f"
+},
+"TW":{
+"name":"Taiwan",
+"region":"apac",
+"color":"#f3b0af",
+"text":"#14181f"
+},
+"ZA":{
+"name":"South Africa",
+"region":"emea",
+"color":"#b57800",
+"text":"#14181f"
+},
+"TR":{
+"name":"Turkey",
+"region":"emea",
+"color":"#e89900",
+"text":"#14181f"
+},
+"IL":{
+"name":"Israel",
+"region":"emea",
+"color":"#ffb21c",
+"text":"#14181f"
+},
+"OP":{
+"name":"OPEC",
+"region":"emea",
+"color":"#ffc34f",
+"text":"#14181f"
 }
-document.addEventListener('DOMContentLoaded', function() {
-  // Build week switcher buttons
-  const wbEl=document.getElementById('week-btns');
-  WEEKS.forEach((w,i)=>{const b=document.createElement('button');b.className='week-btn';b.textContent=w.label;b.onclick=()=>{activeWk=i;render();};wbEl.appendChild(b);});
-
-  // Build region buttons + clear button (all into region-row)
-  const rrEl=document.getElementById('region-row');
-  REGION_BTNS.forEach(rb=>{const b=document.createElement('button');b.className='region-btn';b.dataset.id=rb.id;b.dataset.color=rb.color;b.textContent=rb.label;b.onclick=()=>{activeRegion=rb.id;selectedCodes=new Set();render();};rrEl.appendChild(b);});
-  const clrBtn=document.createElement('button');clrBtn.id='clear-btn';clrBtn.style.cssText='padding:3px 10px;border-radius:3px;cursor:pointer;font-family:inherit;font-size:10px;border:1.5px solid #8a3030;background:#3a1010;color:#f08080;display:none;';clrBtn.onclick=()=>{selectedCodes=new Set();activeRegion='ALL';render();};rrEl.appendChild(clrBtn);
-
-  // Build country toggle buttons
-  const crEl=document.getElementById('country-row');
-  Object.entries(C).forEach(([k,v])=>{const b=document.createElement('button');b.className='country-btn on';b.dataset.code=k;b.style.background=v.bg+'dd';b.style.color=v.tx;b.style.borderColor=v.bg;b.innerHTML=`${v.f} ${k}`;b.onclick=()=>{if(selectedCodes.has(k))selectedCodes.delete(k);else selectedCodes.add(k);if(selectedCodes.size===0)activeRegion='ALL';else activeRegion=null;render();};crEl.appendChild(b);});
-
-  // Initial render — all DOM elements now exist
-  render();
-}); // DOMContentLoaded
+},
+"regionMeta":{
+"americas":{
+"label":"North America",
+"hue":"#2a78d6",
+"text":"#ffffff"
+},
+"latam":{
+"label":"LatAm",
+"hue":"#eb6834",
+"text":"#14181f"
+},
+"uk":{
+"label":"UK",
+"hue":"#4a3aa7",
+"text":"#ffffff"
+},
+"eurozone":{
+"label":"Eurozone",
+"hue":"#1baf7a",
+"text":"#14181f"
+},
+"europe_other":{
+"label":"Europe (non-EZ)",
+"hue":"#e87ba4",
+"text":"#14181f"
+},
+"apac":{
+"label":"APAC",
+"hue":"#e34948",
+"text":"#14181f"
+},
+"emea":{
+"label":"EMEA / Other",
+"hue":"#c98500",
+"text":"#14181f"
+}
+},
+"weeks":[
+{
+"label":"Week 1",
+"range":"14 Sep – 20 Sep 2026",
+"days":[
+{
+"date":"2026-09-14",
+"dow":"Monday",
+"display":"Mon 14 Sep",
+"allDay":[
+{
+"country":"CN",
+"time":"All Day",
+"cb":false,
+"weekLabel":"New Yuan Loans, M2 Money Supply, Outstanding Loan Growth, Total Social Financing",
+"items":[
+{
+"time":"All Day",
+"name":"New Yuan Loans AUG",
+"short":"New Yuan Loans",
+"actual":"",
+"previous":"CNY-340B",
+"consensus":"CNY400B",
+"forecast":"CNY 450.0B",
+"cb":false
+},
+{
+"time":"All Day",
+"name":"M2 Money Supply YoY AUG",
+"short":"M2 Money Supply",
+"actual":"",
+"previous":"7.7%",
+"consensus":"7.6%",
+"forecast":"7.7%",
+"cb":false
+},
+{
+"time":"All Day",
+"name":"Outstanding Loan Growth YoY AUG",
+"short":"Outstanding Loan Growth",
+"actual":"",
+"previous":"5.1%",
+"consensus":"5.1%",
+"forecast":"5.0%",
+"cb":false
+},
+{
+"time":"All Day",
+"name":"Total Social Financing AUG",
+"short":"Total Social Financing",
+"actual":"",
+"previous":"CNY1410B",
+"consensus":"CNY2040B",
+"forecast":"CNY2150.0B",
+"cb":false
+}
+]
+},
+{
+"country":"DE",
+"time":"All Day",
+"cb":false,
+"weekLabel":"6-Month Bubill Auction",
+"items":[
+{
+"time":"All Day",
+"name":"6-Month Bubill Auction",
+"short":"6-Month Bubill Auction",
+"actual":"",
+"previous":"2.502%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"BR",
+"time":"All Day",
+"cb":false,
+"weekLabel":"BCB Focus Market Readout",
+"items":[
+{
+"time":"All Day",
+"name":"BCB Focus Market Readout",
+"short":"BCB Focus Market Readout",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+"hours":[
+[],
+[],
+[],
+[
+{
+"country":"AU",
+"time":"03:30 AM",
+"cb":false,
+"weekLabel":"RBA Hunter Speech",
+"items":[
+{
+"time":"03:30 AM",
+"name":"RBA Hunter Speech",
+"short":"RBA Hunter Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"KR",
+"time":"03:30 AM",
+"cb":false,
+"weekLabel":"10-Year KTB Auction",
+"items":[
+{
+"time":"03:30 AM",
+"name":"10-Year KTB Auction",
+"short":"10-Year KTB Auction",
+"actual":"4.510%",
+"previous":"4.415%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"JP",
+"time":"05:30 AM",
+"cb":false,
+"weekLabel":"Capacity Utilization, Industrial Production",
+"items":[
+{
+"time":"05:30 AM",
+"name":"Capacity Utilization MoM JUL",
+"short":"Capacity Utilization",
+"actual":"0.5%",
+"previous":"4.1%",
+"consensus":"",
+"forecast":"-1.3%",
+"cb":false
+},
+{
+"time":"05:30 AM",
+"name":"Industrial Production MoM Final JUL",
+"short":"Industrial Production",
+"actual":"-0.2%",
+"previous":"1.9%",
+"consensus":"0.1%",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"05:30 AM",
+"name":"Industrial Production YoY Final JUL",
+"short":"Industrial Production",
+"actual":"3.9%",
+"previous":"4.9%",
+"consensus":"",
+"forecast":"4.1%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"IN",
+"time":"07:30 AM",
+"cb":false,
+"weekLabel":"WPI Food Index, WPI Fuel, WPI Inflation, WPI Manufacturing",
+"items":[
+{
+"time":"07:30 AM",
+"name":"WPI Food Index YoY AUG",
+"short":"WPI Food Index",
+"actual":"",
+"previous":"6.65%",
+"consensus":"",
+"forecast":"6.7%",
+"cb":false
+},
+{
+"time":"07:30 AM",
+"name":"WPI Fuel YoY AUG",
+"short":"WPI Fuel",
+"actual":"",
+"previous":"20.05%",
+"consensus":"",
+"forecast":"15.0%",
+"cb":false
+},
+{
+"time":"07:30 AM",
+"name":"WPI Inflation YoY AUG",
+"short":"WPI Inflation",
+"actual":"",
+"previous":"9.78%",
+"consensus":"9.89%",
+"forecast":"10.0%",
+"cb":false
+},
+{
+"time":"07:30 AM",
+"name":"WPI Manufacturing YoY AUG",
+"short":"WPI Manufacturing",
+"actual":"",
+"previous":"8.29%",
+"consensus":"",
+"forecast":"8.5%",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[
+{
+"country":"EA",
+"time":"10:15 AM",
+"cb":false,
+"weekLabel":"ECB Schnabel Speech",
+"items":[
+{
+"time":"10:15 AM",
+"name":"ECB Schnabel Speech",
+"short":"ECB Schnabel Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"DE",
+"time":"10:30 AM",
+"cb":false,
+"weekLabel":"12-Month Bubill Auction",
+"items":[
+{
+"time":"10:30 AM",
+"name":"12-Month Bubill Auction",
+"short":"12-Month Bubill Auction",
+"actual":"",
+"previous":"2.656%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"ZA",
+"time":"10:30 AM",
+"cb":false,
+"weekLabel":"182-Day T-Bill Auction, 273-Day T-Bill Auction, 364-Day T-Bill Auction, 91-Day T-Bill Auction",
+"items":[
+{
+"time":"10:30 AM",
+"name":"182-Day T-Bill Auction",
+"short":"182-Day T-Bill Auction",
+"actual":"",
+"previous":"7.52%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:30 AM",
+"name":"273-Day T-Bill Auction",
+"short":"273-Day T-Bill Auction",
+"actual":"",
+"previous":"7.73%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:30 AM",
+"name":"364-Day T-Bill Auction",
+"short":"364-Day T-Bill Auction",
+"actual":"",
+"previous":"7.85%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:30 AM",
+"name":"91-Day T-Bill Auction",
+"short":"91-Day T-Bill Auction",
+"actual":"",
+"previous":"6.98%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"IN",
+"time":"11:30 AM",
+"cb":false,
+"weekLabel":"Inflation Rate",
+"items":[
+{
+"time":"11:30 AM",
+"name":"Inflation Rate YoY AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"4.45%",
+"consensus":"4.8%",
+"forecast":"4.7%",
+"cb":false
+},
+{
+"time":"11:30 AM",
+"name":"Inflation Rate MoM AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"0.88%",
+"consensus":"",
+"forecast":"0.6%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"CA",
+"time":"01:30 PM",
+"cb":false,
+"weekLabel":"Inflation Rate, Core Inflation Rate, Capacity Utilization, CPI Common, CPI Median, CPI Trimmed-Mean, Manufacturing Sales",
+"items":[
+{
+"time":"01:30 PM",
+"name":"Inflation Rate YoY AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"3%",
+"consensus":"",
+"forecast":"3.0%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Core Inflation Rate YoY AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"2.3%",
+"consensus":"",
+"forecast":"2.3%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Inflation Rate MoM AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"0.5%",
+"consensus":"0%",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Capacity Utilization JUL",
+"short":"Capacity Utilization",
+"actual":"",
+"previous":"82.3%",
+"consensus":"",
+"forecast":"82.4%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Core Inflation Rate MoM AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"0.2%",
+"consensus":"0.2%",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"CPI Common YoY AUG",
+"short":"CPI Common",
+"actual":"",
+"previous":"2.7%",
+"consensus":"2.7%",
+"forecast":"2.7%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"CPI Median YoY AUG",
+"short":"CPI Median",
+"actual":"",
+"previous":"2%",
+"consensus":"2%",
+"forecast":"2.0%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"CPI Trimmed-Mean YoY AUG",
+"short":"CPI Trimmed-Mean",
+"actual":"",
+"previous":"1.9%",
+"consensus":"1.9%",
+"forecast":"1.9%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Manufacturing Sales MoM Final JUL",
+"short":"Manufacturing Sales",
+"actual":"",
+"previous":"0.1%",
+"consensus":"-0.2%",
+"forecast":"-0.2%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"02:00 PM",
+"cb":false,
+"weekLabel":"ECB Cipollone Speech",
+"items":[
+{
+"time":"02:00 PM",
+"name":"ECB Cipollone Speech",
+"short":"ECB Cipollone Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"FR",
+"time":"02:00 PM",
+"cb":false,
+"weekLabel":"12-Month BTF Auction, 3-Month BTF Auction, 6-Month BTF Auction",
+"items":[
+{
+"time":"02:00 PM",
+"name":"12-Month BTF Auction",
+"short":"12-Month BTF Auction",
+"actual":"",
+"previous":"2.940%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"02:00 PM",
+"name":"3-Month BTF Auction",
+"short":"3-Month BTF Auction",
+"actual":"",
+"previous":"2.540%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"02:00 PM",
+"name":"6-Month BTF Auction",
+"short":"6-Month BTF Auction",
+"actual":"",
+"previous":"2.720%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"BR",
+"time":"03:00 PM",
+"cb":false,
+"weekLabel":"Business Confidence",
+"items":[
+{
+"time":"03:00 PM",
+"name":"Business Confidence SEP",
+"short":"Business Confidence",
+"actual":"",
+"previous":"46.3",
+"consensus":"",
+"forecast":"45.7",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"04:15 PM",
+"cb":false,
+"weekLabel":"ECB President Lagarde Speech",
+"items":[
+{
+"time":"04:15 PM",
+"name":"ECB President Lagarde Speech",
+"short":"ECB President Lagarde Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"04:30 PM",
+"cb":false,
+"weekLabel":"3-Month Bill Auction, 6-Month Bill Auction",
+"items":[
+{
+"time":"04:30 PM",
+"name":"3-Month Bill Auction",
+"short":"3-Month Bill Auction",
+"actual":"",
+"previous":"3.800%",
+"consensus":"",
+"forecast":"3.8999%",
+"cb":false
+},
+{
+"time":"04:30 PM",
+"name":"6-Month Bill Auction",
+"short":"6-Month Bill Auction",
+"actual":"",
+"previous":"3.890%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"05:00 PM",
+"cb":false,
+"weekLabel":"ECB Machado Speech",
+"items":[
+{
+"time":"05:00 PM",
+"name":"ECB Machado Speech",
+"short":"ECB Machado Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[],
+[],
+[
+{
+"country":"KR",
+"time":"10:00 PM",
+"cb":false,
+"weekLabel":"Export Prices, Import Prices",
+"items":[
+{
+"time":"10:00 PM",
+"name":"Export Prices YoY AUG",
+"short":"Export Prices",
+"actual":"",
+"previous":"49.1%",
+"consensus":"",
+"forecast":"52.0%",
+"cb":false
+},
+{
+"time":"10:00 PM",
+"name":"Import Prices YoY AUG",
+"short":"Import Prices",
+"actual":"",
+"previous":"18.7%",
+"consensus":"",
+"forecast":"23.0%",
+"cb":false
+}
+]
+}
+],
+[]
+]
+},
+{
+"date":"2026-09-15",
+"dow":"Tuesday",
+"display":"Tue 15 Sep",
+"allDay":[
+{
+"country":"IN",
+"time":"All Day",
+"cb":false,
+"weekLabel":"Passenger Vehicles Sales, Balance of Trade, Exports, Imports",
+"items":[
+{
+"time":"All Day",
+"name":"Passenger Vehicles Sales YoY AUG",
+"short":"Passenger Vehicles Sales",
+"actual":"",
+"previous":"31.2%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"All Day",
+"name":"Balance of Trade AUG",
+"short":"Balance of Trade",
+"actual":"",
+"previous":"$-31.98B",
+"consensus":"",
+"forecast":"$-33.0B",
+"cb":false
+},
+{
+"time":"All Day",
+"name":"Exports AUG",
+"short":"Exports",
+"actual":"",
+"previous":"$44.2B",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"All Day",
+"name":"Imports AUG",
+"short":"Imports",
+"actual":"",
+"previous":"$76.2B",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"CN",
+"time":"All Day",
+"cb":false,
+"weekLabel":"FDI",
+"items":[
+{
+"time":"All Day",
+"name":"FDI (YTD) YoY AUG",
+"short":"FDI",
+"actual":"",
+"previous":"-6.2%",
+"consensus":"",
+"forecast":"-5.8%",
+"cb":false
+}
+]
+}
+],
+"hours":[
+[],
+[],
+[
+{
+"country":"CN",
+"time":"02:30 AM",
+"cb":false,
+"weekLabel":"House Price Index",
+"items":[
+{
+"time":"02:30 AM",
+"name":"House Price Index YoY AUG",
+"short":"House Price Index",
+"actual":"",
+"previous":"-3.2%",
+"consensus":"",
+"forecast":"-3.1%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"CN",
+"time":"03:00 AM",
+"cb":false,
+"weekLabel":"Industrial Production, Retail Sales, Fixed Asset Investment, Unemployment Rate",
+"items":[
+{
+"time":"03:00 AM",
+"name":"Industrial Production YoY AUG",
+"short":"Industrial Production",
+"actual":"",
+"previous":"4.5%",
+"consensus":"4.8%",
+"forecast":"5.0%",
+"cb":false
+},
+{
+"time":"03:00 AM",
+"name":"Retail Sales YoY AUG",
+"short":"Retail Sales",
+"actual":"",
+"previous":"0.6%",
+"consensus":"0.8%",
+"forecast":"1.0%",
+"cb":false
+},
+{
+"time":"03:00 AM",
+"name":"Fixed Asset Investment (YTD) YoY AUG",
+"short":"Fixed Asset Investment",
+"actual":"",
+"previous":"-6.7%",
+"consensus":"-7.1%",
+"forecast":"-6.6%",
+"cb":false
+},
+{
+"time":"03:00 AM",
+"name":"Unemployment Rate AUG",
+"short":"Unemployment Rate",
+"actual":"",
+"previous":"5.2%",
+"consensus":"5.2%",
+"forecast":"5.2%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"JP",
+"time":"04:35 AM",
+"cb":false,
+"weekLabel":"20-Year JGB Auction",
+"items":[
+{
+"time":"04:35 AM",
+"name":"20-Year JGB Auction",
+"short":"20-Year JGB Auction",
+"actual":"",
+"previous":"3.698%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"JP",
+"time":"05:30 AM",
+"cb":false,
+"weekLabel":"Tertiary Industry Index",
+"items":[
+{
+"time":"05:30 AM",
+"name":"Tertiary Industry Index MoM JUL",
+"short":"Tertiary Industry Index",
+"actual":"",
+"previous":"-0.2%",
+"consensus":"0.4%",
+"forecast":"0.3%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"SG",
+"time":"06:00 AM",
+"cb":false,
+"weekLabel":"MAS 12-Week Bill Auction, MAS 36-Week Bill Auction, MAS 4-Week Bill Auction",
+"items":[
+{
+"time":"06:00 AM",
+"name":"MAS 12-Week Bill Auction",
+"short":"MAS 12-Week Bill Auction",
+"actual":"",
+"previous":"1.60%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"06:00 AM",
+"name":"MAS 36-Week Bill Auction",
+"short":"MAS 36-Week Bill Auction",
+"actual":"",
+"previous":"1.65%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"06:00 AM",
+"name":"MAS 4-Week Bill Auction",
+"short":"MAS 4-Week Bill Auction",
+"actual":"",
+"previous":"1.55%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"DE",
+"time":"07:00 AM",
+"cb":false,
+"weekLabel":"Wholesale Prices",
+"items":[
+{
+"time":"07:00 AM",
+"name":"Wholesale Prices MoM AUG",
+"short":"Wholesale Prices",
+"actual":"",
+"previous":"0.2%",
+"consensus":"0.1%",
+"forecast":"0.3%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Wholesale Prices YoY AUG",
+"short":"Wholesale Prices",
+"actual":"",
+"previous":"5.3%",
+"consensus":"",
+"forecast":"6.2%",
+"cb":false
+}
+]
+},
+{
+"country":"GB",
+"time":"07:00 AM",
+"cb":false,
+"weekLabel":"Unemployment Rate, Average Earnings, Employment Change, Claimant Count Change, HMRC Payrolls Change",
+"items":[
+{
+"time":"07:00 AM",
+"name":"Unemployment Rate JUL",
+"short":"Unemployment Rate",
+"actual":"",
+"previous":"4.9%",
+"consensus":"5%",
+"forecast":"5.0%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Average Earnings incl. Bonus (3Mo/Yr) JUL",
+"short":"Average Earnings",
+"actual":"",
+"previous":"4.1%",
+"consensus":"3.9%",
+"forecast":"4.0%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Employment Change JUL",
+"short":"Employment Change",
+"actual":"",
+"previous":"83K",
+"consensus":"",
+"forecast":"70.0K",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Average Earnings excl. Bonus (3Mo/Yr) JUL",
+"short":"Average Earnings",
+"actual":"",
+"previous":"3.5%",
+"consensus":"3.5%",
+"forecast":"3.4%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Claimant Count Change AUG",
+"short":"Claimant Count Change",
+"actual":"",
+"previous":"-11K",
+"consensus":"8.3K",
+"forecast":"-5.0K",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"HMRC Payrolls Change AUG",
+"short":"HMRC Payrolls Change",
+"actual":"",
+"previous":"-13K",
+"consensus":"",
+"forecast":"-4.0K",
+"cb":false
+}
+]
+},
+{
+"country":"FR",
+"time":"07:45 AM",
+"cb":false,
+"weekLabel":"Harmonised Inflation Rate, Inflation Rate",
+"items":[
+{
+"time":"07:45 AM",
+"name":"Harmonised Inflation Rate MoM Final AUG",
+"short":"Harmonised Inflation Rate",
+"actual":"",
+"previous":"0.6%",
+"consensus":"0.8%",
+"forecast":"0.8%",
+"cb":false
+},
+{
+"time":"07:45 AM",
+"name":"Harmonised Inflation Rate YoY Final AUG",
+"short":"Harmonised Inflation Rate",
+"actual":"",
+"previous":"2.4%",
+"consensus":"2.7%",
+"forecast":"2.7%",
+"cb":false
+},
+{
+"time":"07:45 AM",
+"name":"Inflation Rate MoM Final AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"0.6%",
+"consensus":"0.7%",
+"forecast":"0.7%",
+"cb":false
+},
+{
+"time":"07:45 AM",
+"name":"Inflation Rate YoY Final AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"2.1%",
+"consensus":"2.4%",
+"forecast":"2.4%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"ES",
+"time":"08:00 AM",
+"cb":false,
+"weekLabel":"Core Inflation Rate, Harmonised Inflation Rate, Inflation Rate",
+"items":[
+{
+"time":"08:00 AM",
+"name":"Core Inflation Rate YoY Final AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"3%",
+"consensus":"",
+"forecast":"2.9%",
+"cb":false
+},
+{
+"time":"08:00 AM",
+"name":"Harmonised Inflation Rate MoM Final AUG",
+"short":"Harmonised Inflation Rate",
+"actual":"",
+"previous":"0%",
+"consensus":"0.6%",
+"forecast":"0.6%",
+"cb":false
+},
+{
+"time":"08:00 AM",
+"name":"Harmonised Inflation Rate YoY Final AUG",
+"short":"Harmonised Inflation Rate",
+"actual":"",
+"previous":"3.9%",
+"consensus":"4.5%",
+"forecast":"4.5%",
+"cb":false
+},
+{
+"time":"08:00 AM",
+"name":"Inflation Rate MoM Final AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"0.3%",
+"consensus":"0.7%",
+"forecast":"0.7%",
+"cb":false
+},
+{
+"time":"08:00 AM",
+"name":"Inflation Rate YoY Final AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"3.6%",
+"consensus":"4.3%",
+"forecast":"4.3%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"IT",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"Balance of Trade",
+"items":[
+{
+"time":"09:00 AM",
+"name":"Balance of Trade JUL",
+"short":"Balance of Trade",
+"actual":"",
+"previous":"€4.232B",
+"consensus":"€4.77B",
+"forecast":"€4.0B",
+"cb":false
+}
+]
+},
+{
+"country":"TR",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"Budget Balance",
+"items":[
+{
+"time":"09:00 AM",
+"name":"Budget Balance AUG",
+"short":"Budget Balance",
+"actual":"",
+"previous":"TRY-378.1B",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"EA",
+"time":"09:15 AM",
+"cb":false,
+"weekLabel":"ECB Buch Speech",
+"items":[
+{
+"time":"09:15 AM",
+"name":"ECB Buch Speech",
+"short":"ECB Buch Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"10:00 AM",
+"cb":false,
+"weekLabel":"Balance of Trade, ZEW Economic Sentiment Index",
+"items":[
+{
+"time":"10:00 AM",
+"name":"Balance of Trade JUL",
+"short":"Balance of Trade",
+"actual":"",
+"previous":"€8.6B",
+"consensus":"€3.7B",
+"forecast":"€14.4B",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"ZEW Economic Sentiment Index SEP",
+"short":"ZEW Economic Sentiment Index",
+"actual":"",
+"previous":"31.4",
+"consensus":"39.5",
+"forecast":"36",
+"cb":false
+}
+]
+},
+{
+"country":"DE",
+"time":"10:00 AM–10:30 AM",
+"cb":false,
+"weekLabel":"ZEW Economic Sentiment Index, ZEW Current Conditions, 2-Year Schatz Auction",
+"items":[
+{
+"time":"10:00 AM",
+"name":"ZEW Economic Sentiment Index SEP",
+"short":"ZEW Economic Sentiment Index",
+"actual":"",
+"previous":"34.2",
+"consensus":"37",
+"forecast":"34",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"ZEW Current Conditions SEP",
+"short":"ZEW Current Conditions",
+"actual":"",
+"previous":"-61.1",
+"consensus":"-53",
+"forecast":"-54",
+"cb":false
+},
+{
+"time":"10:30 AM",
+"name":"2-Year Schatz Auction",
+"short":"2-Year Schatz Auction",
+"actual":"",
+"previous":"2.85%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"GB",
+"time":"10:00 AM",
+"cb":false,
+"weekLabel":"Treasury Gilt: 2029 Auction, 2040 Auction",
+"items":[
+{
+"time":"10:00 AM",
+"name":"Treasury Gilt 2029 Auction",
+"short":"Treasury Gilt 2029 Auction",
+"actual":"",
+"previous":"4.463%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"Treasury Gilt 2040 Auction",
+"short":"Treasury Gilt 2040 Auction",
+"actual":"",
+"previous":"5.048%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"ZA",
+"time":"10:30 AM",
+"cb":false,
+"weekLabel":"2033 Bond Auction, 2037 Bond Auction, 2040 Bond Auction",
+"items":[
+{
+"time":"10:30 AM",
+"name":"2033 Bond Auction",
+"short":"2033 Bond Auction",
+"actual":"",
+"previous":"8.500%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:30 AM",
+"name":"2037 Bond Auction",
+"short":"2037 Bond Auction",
+"actual":"",
+"previous":"8.773%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:30 AM",
+"name":"2040 Bond Auction",
+"short":"2040 Bond Auction",
+"actual":"",
+"previous":"9.239%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"IN",
+"time":"11:30 AM",
+"cb":false,
+"weekLabel":"Unemployment Rate",
+"items":[
+{
+"time":"11:30 AM",
+"name":"Unemployment Rate AUG",
+"short":"Unemployment Rate",
+"actual":"",
+"previous":"5.1%",
+"consensus":"5.2%",
+"forecast":"5.2%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"BR",
+"time":"01:00 PM",
+"cb":false,
+"weekLabel":"Retail Sales",
+"items":[
+{
+"time":"01:00 PM",
+"name":"Retail Sales MoM JUL",
+"short":"Retail Sales",
+"actual":"",
+"previous":"0.5%",
+"consensus":"",
+"forecast":"0.6%",
+"cb":false
+},
+{
+"time":"01:00 PM",
+"name":"Retail Sales YoY JUL",
+"short":"Retail Sales",
+"actual":"",
+"previous":"2.9%",
+"consensus":"",
+"forecast":"2.4%",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"01:15 PM–01:55 PM",
+"cb":false,
+"weekLabel":"ADP Employment Change Weekly, NY Empire State Manufacturing Index, Redbook",
+"items":[
+{
+"time":"01:15 PM",
+"name":"ADP Employment Change Weekly",
+"short":"ADP Employment Change Weekly",
+"actual":"",
+"previous":"12K",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"NY Empire State Manufacturing Index SEP",
+"short":"NY Empire State Manufacturing Index",
+"actual":"",
+"previous":"20.60",
+"consensus":"15",
+"forecast":"14",
+"cb":false
+},
+{
+"time":"01:55 PM",
+"name":"Redbook YoY SEP/12",
+"short":"Redbook",
+"actual":"",
+"previous":"8.3%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"CA",
+"time":"01:30 PM",
+"cb":false,
+"weekLabel":"New Motor Vehicle Sales, Wholesale Sales",
+"items":[
+{
+"time":"01:30 PM",
+"name":"New Motor Vehicle Sales JUL",
+"short":"New Motor Vehicle Sales",
+"actual":"",
+"previous":"190.2K",
+"consensus":"",
+"forecast":"190.1K",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Wholesale Sales MoM Final JUL",
+"short":"Wholesale Sales",
+"actual":"",
+"previous":"2.8%",
+"consensus":"-0.6%",
+"forecast":"-0.6%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"EA",
+"time":"03:00 PM",
+"cb":false,
+"weekLabel":"ECB Cipollone Speech",
+"items":[
+{
+"time":"03:00 PM",
+"name":"ECB Cipollone Speech",
+"short":"ECB Cipollone Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"GB",
+"time":"04:00 PM",
+"cb":false,
+"weekLabel":"BoE Wilkins Speech",
+"items":[
+{
+"time":"04:00 PM",
+"name":"BoE Wilkins Speech",
+"short":"BoE Wilkins Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"04:30 PM",
+"cb":false,
+"weekLabel":"6-Week Bill Auction",
+"items":[
+{
+"time":"04:30 PM",
+"name":"6-Week Bill Auction",
+"short":"6-Week Bill Auction",
+"actual":"",
+"previous":"3.740%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"05:00 PM",
+"cb":false,
+"weekLabel":"NOPA Crush Report",
+"items":[
+{
+"time":"05:00 PM",
+"name":"NOPA Crush Report",
+"short":"NOPA Crush Report",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"06:00 PM",
+"cb":false,
+"weekLabel":"ECB Schnabel Speech",
+"items":[
+{
+"time":"06:00 PM",
+"name":"ECB Schnabel Speech",
+"short":"ECB Schnabel Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"06:00 PM",
+"cb":false,
+"weekLabel":"20-Year Bond Auction",
+"items":[
+{
+"time":"06:00 PM",
+"name":"20-Year Bond Auction",
+"short":"20-Year Bond Auction",
+"actual":"",
+"previous":"5.204%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[
+{
+"country":"US",
+"time":"09:30 PM",
+"cb":false,
+"weekLabel":"API Crude Oil Stock Change",
+"items":[
+{
+"time":"09:30 PM",
+"name":"API Crude Oil Stock Change SEP/11",
+"short":"API Crude Oil Stock Change",
+"actual":"",
+"previous":"-0.3M",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[]
+]
+},
+{
+"date":"2026-09-16",
+"dow":"Wednesday",
+"display":"Wed 16 Sep",
+"allDay":[
+{
+"country":"TR",
+"time":"All Day",
+"cb":false,
+"weekLabel":"Auto Production, Auto Sales",
+"items":[
+{
+"time":"All Day",
+"name":"Auto Production YoY AUG",
+"short":"Auto Production",
+"actual":"",
+"previous":"-19.2%",
+"consensus":"",
+"forecast":"-11.0%",
+"cb":false
+},
+{
+"time":"All Day",
+"name":"Auto Sales YoY AUG",
+"short":"Auto Sales",
+"actual":"",
+"previous":"-25.0%",
+"consensus":"",
+"forecast":"-15.0%",
+"cb":false
+}
+]
+}
+],
+"hours":[
+[
+{
+"country":"JP",
+"time":"12:50 AM",
+"cb":false,
+"weekLabel":"Balance of Trade, Exports, Machinery Orders, Imports",
+"items":[
+{
+"time":"12:50 AM",
+"name":"Balance of Trade AUG",
+"short":"Balance of Trade",
+"actual":"",
+"previous":"¥-634.5B",
+"consensus":"¥-1052.6B",
+"forecast":"¥-850.0B",
+"cb":false
+},
+{
+"time":"12:50 AM",
+"name":"Exports YoY AUG",
+"short":"Exports",
+"actual":"",
+"previous":"23.2%",
+"consensus":"18.2%",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:50 AM",
+"name":"Machinery Orders MoM JUL",
+"short":"Machinery Orders",
+"actual":"",
+"previous":"9.7%",
+"consensus":"-2.8%",
+"forecast":"1.0%",
+"cb":false
+},
+{
+"time":"12:50 AM",
+"name":"Machinery Orders YoY JUL",
+"short":"Machinery Orders",
+"actual":"",
+"previous":"16.9%",
+"consensus":"15.3%",
+"forecast":"12.0%",
+"cb":false
+},
+{
+"time":"12:50 AM",
+"name":"Imports YoY AUG",
+"short":"Imports",
+"actual":"",
+"previous":"27.8%",
+"consensus":"26.3%",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"AU",
+"time":"02:00 AM",
+"cb":false,
+"weekLabel":"Westpac Leading Index",
+"items":[
+{
+"time":"02:00 AM",
+"name":"Westpac Leading Index MoM AUG",
+"short":"Westpac Leading Index",
+"actual":"",
+"previous":"0%",
+"consensus":"",
+"forecast":"0.2%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"JP",
+"time":"04:35 AM",
+"cb":false,
+"weekLabel":"52-Week Bill Auction, BoJ JGB Purchase",
+"items":[
+{
+"time":"04:35 AM",
+"name":"52-Week Bill Auction",
+"short":"52-Week Bill Auction",
+"actual":"",
+"previous":"1.4332%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"04:35 AM",
+"name":"BoJ JGB Purchase",
+"short":"BoJ JGB Purchase",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[
+{
+"country":"GB",
+"time":"07:00 AM",
+"cb":false,
+"weekLabel":"Inflation Rate, Core Inflation Rate, PPI Core Output, PPI Input, PPI Output, Retail Price Index",
+"items":[
+{
+"time":"07:00 AM",
+"name":"Inflation Rate YoY AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"2.9%",
+"consensus":"3.1%",
+"forecast":"3.1%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Core Inflation Rate YoY AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"2.6%",
+"consensus":"2.7%",
+"forecast":"2.6%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Inflation Rate MoM AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"0.3%",
+"consensus":"",
+"forecast":"0.5%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Core Inflation Rate MoM AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"0.2%",
+"consensus":"0.1%",
+"forecast":"0.3%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"PPI Core Output MoM AUG",
+"short":"PPI Core Output",
+"actual":"",
+"previous":"0.6%",
+"consensus":"",
+"forecast":"0.4%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"PPI Core Output YoY AUG",
+"short":"PPI Core Output",
+"actual":"",
+"previous":"2.8%",
+"consensus":"",
+"forecast":"2.9%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"PPI Input MoM AUG",
+"short":"PPI Input",
+"actual":"",
+"previous":"-1.7%",
+"consensus":"-0.6%",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"PPI Input YoY AUG",
+"short":"PPI Input",
+"actual":"",
+"previous":"4.9%",
+"consensus":"",
+"forecast":"5.0%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"PPI Output MoM AUG",
+"short":"PPI Output",
+"actual":"",
+"previous":"0.2%",
+"consensus":"0.1%",
+"forecast":"0.2%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"PPI Output YoY AUG",
+"short":"PPI Output",
+"actual":"",
+"previous":"3.1%",
+"consensus":"",
+"forecast":"3.1%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Retail Price Index MoM AUG",
+"short":"Retail Price Index",
+"actual":"",
+"previous":"0.6%",
+"consensus":"",
+"forecast":"0.5%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Retail Price Index YoY AUG",
+"short":"Retail Price Index",
+"actual":"",
+"previous":"3.2%",
+"consensus":"3.5%",
+"forecast":"3.3%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"IT",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"Harmonised Inflation Rate, Inflation Rate",
+"items":[
+{
+"time":"09:00 AM",
+"name":"Harmonised Inflation Rate MoM Final AUG",
+"short":"Harmonised Inflation Rate",
+"actual":"",
+"previous":"-1%",
+"consensus":"0.1%",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"Harmonised Inflation Rate YoY Final AUG",
+"short":"Harmonised Inflation Rate",
+"actual":"",
+"previous":"2.9%",
+"consensus":"3.2%",
+"forecast":"3.2%",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"Inflation Rate MoM Final AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"0.3%",
+"consensus":"0.5%",
+"forecast":"0.5%",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"Inflation Rate YoY Final AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"2.9%",
+"consensus":"3.3%",
+"forecast":"3.3%",
+"cb":false
+}
+]
+},
+{
+"country":"ZA",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"Inflation Expectations",
+"items":[
+{
+"time":"09:00 AM",
+"name":"Inflation Expectations Q3",
+"short":"Inflation Expectations",
+"actual":"",
+"previous":"4.2%",
+"consensus":"",
+"forecast":"4.4%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"10:00 AM",
+"cb":false,
+"weekLabel":"Industrial Production, Labour Cost Index, Wage Growth",
+"items":[
+{
+"time":"10:00 AM",
+"name":"Industrial Production MoM JUL",
+"short":"Industrial Production",
+"actual":"",
+"previous":"0%",
+"consensus":"-0.7%",
+"forecast":"-0.8%",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"Industrial Production YoY JUL",
+"short":"Industrial Production",
+"actual":"",
+"previous":"0.1%",
+"consensus":"-0.4%",
+"forecast":"-0.3%",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"Labour Cost Index YoY Final Q2",
+"short":"Labour Cost Index",
+"actual":"",
+"previous":"3.2%",
+"consensus":"3.0%",
+"forecast":"3.0%",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"Wage Growth YoY Q2",
+"short":"Wage Growth",
+"actual":"",
+"previous":"3.4%",
+"consensus":"",
+"forecast":"3.2%",
+"cb":false
+}
+]
+},
+{
+"country":"DE",
+"time":"10:30 AM",
+"cb":false,
+"weekLabel":"30-Year Bund Auction",
+"items":[
+{
+"time":"10:30 AM",
+"name":"30-Year Bund Auction",
+"short":"30-Year Bund Auction",
+"actual":"",
+"previous":"3.65%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EU",
+"time":"11:10 AM",
+"cb":false,
+"weekLabel":"12-Month Bill Auction, 3-Month Bill Auction, 6-Month Bill Auction",
+"items":[
+{
+"time":"11:10 AM",
+"name":"12-Month Bill Auction",
+"short":"12-Month Bill Auction",
+"actual":"",
+"previous":"2.918%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"11:10 AM",
+"name":"3-Month Bill Auction",
+"short":"3-Month Bill Auction",
+"actual":"",
+"previous":"2.499%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"11:10 AM",
+"name":"6-Month Bill Auction",
+"short":"6-Month Bill Auction",
+"actual":"",
+"previous":"2.682%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"BR",
+"time":"12:00 PM",
+"cb":false,
+"weekLabel":"IGP-10 Inflation",
+"items":[
+{
+"time":"12:00 PM",
+"name":"IGP-10 Inflation MoM SEP",
+"short":"IGP-10 Inflation",
+"actual":"",
+"previous":"-0.51%",
+"consensus":"",
+"forecast":"-0.4%",
+"cb":false
+}
+]
+},
+{
+"country":"ZA",
+"time":"12:00 PM",
+"cb":false,
+"weekLabel":"Retail Sales",
+"items":[
+{
+"time":"12:00 PM",
+"name":"Retail Sales MoM JUL",
+"short":"Retail Sales",
+"actual":"",
+"previous":"-0.6%",
+"consensus":"",
+"forecast":"0.7%",
+"cb":false
+},
+{
+"time":"12:00 PM",
+"name":"Retail Sales YoY JUL",
+"short":"Retail Sales",
+"actual":"",
+"previous":"1.6%",
+"consensus":"",
+"forecast":"-3.0%",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"12:00 PM",
+"cb":false,
+"weekLabel":"MBA 30-Year Mortgage Rate, MBA Mortgage Applications, MBA Mortgage Market Index, MBA Mortgage Refinance Index, MBA Purchase Index",
+"items":[
+{
+"time":"12:00 PM",
+"name":"MBA 30-Year Mortgage Rate SEP/11",
+"short":"MBA 30-Year Mortgage Rate",
+"actual":"",
+"previous":"6.85%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:00 PM",
+"name":"MBA Mortgage Applications SEP/11",
+"short":"MBA Mortgage Applications",
+"actual":"",
+"previous":"-2.7%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:00 PM",
+"name":"MBA Mortgage Market Index SEP/11",
+"short":"MBA Mortgage Market Index",
+"actual":"",
+"previous":"240.6",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:00 PM",
+"name":"MBA Mortgage Refinance Index SEP/11",
+"short":"MBA Mortgage Refinance Index",
+"actual":"",
+"previous":"687.3",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:00 PM",
+"name":"MBA Purchase Index SEP/11",
+"short":"MBA Purchase Index",
+"actual":"",
+"previous":"157.5",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"IN",
+"time":"12:30 PM",
+"cb":false,
+"weekLabel":"M3 Money Supply",
+"items":[
+{
+"time":"12:30 PM",
+"name":"M3 Money Supply YoY AUG/31",
+"short":"M3 Money Supply",
+"actual":"",
+"previous":"14.2%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"BR",
+"time":"01:00 PM",
+"cb":false,
+"weekLabel":"IBC-BR Economic Activity",
+"items":[
+{
+"time":"01:00 PM",
+"name":"IBC-BR Economic Activity JUL",
+"short":"IBC-BR Economic Activity",
+"actual":"",
+"previous":"-0.6%",
+"consensus":"",
+"forecast":"0.3%",
+"cb":false
+}
+]
+},
+{
+"country":"CA",
+"time":"01:15 PM–01:30 PM",
+"cb":false,
+"weekLabel":"Housing Starts, Building Permits",
+"items":[
+{
+"time":"01:15 PM",
+"name":"Housing Starts AUG",
+"short":"Housing Starts",
+"actual":"",
+"previous":"229.1K",
+"consensus":"235K",
+"forecast":"215.0K",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Building Permits MoM JUL",
+"short":"Building Permits",
+"actual":"",
+"previous":"18.5%",
+"consensus":"-5.8%",
+"forecast":"-5.6%",
+"cb":false
+}
+]
+},
+{
+"country":"EA",
+"time":"01:15 PM",
+"cb":false,
+"weekLabel":"ECB Vujčić Speech",
+"items":[
+{
+"time":"01:15 PM",
+"name":"ECB Vujčić Speech",
+"short":"ECB Vujčić Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"01:30 PM",
+"cb":false,
+"weekLabel":"Retail Sales, Export Prices, Import Prices, Retail Sales Control Group, Retail Sales Ex Autos, NY Fed Services Activity Index, Retail Sales Ex Gas/Autos",
+"items":[
+{
+"time":"01:30 PM",
+"name":"Retail Sales MoM AUG",
+"short":"Retail Sales",
+"actual":"",
+"previous":"-0.6%",
+"consensus":"0.9%",
+"forecast":"0.3%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Export Prices MoM AUG",
+"short":"Export Prices",
+"actual":"",
+"previous":"-1.3%",
+"consensus":"",
+"forecast":"-0.5%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Import Prices MoM AUG",
+"short":"Import Prices",
+"actual":"",
+"previous":"-0.4%",
+"consensus":"0.2%",
+"forecast":"-0.1%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Retail Sales Control Group MoM AUG",
+"short":"Retail Sales Control Group",
+"actual":"",
+"previous":"-0.4%",
+"consensus":"",
+"forecast":"-0.1%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Retail Sales Ex Autos MoM AUG",
+"short":"Retail Sales Ex Autos",
+"actual":"",
+"previous":"-0.3%",
+"consensus":"0.5%",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Export Prices YoY AUG",
+"short":"Export Prices",
+"actual":"",
+"previous":"8.2%",
+"consensus":"",
+"forecast":"7.5%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Import Prices YoY AUG",
+"short":"Import Prices",
+"actual":"",
+"previous":"5.9%",
+"consensus":"",
+"forecast":"6.0%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"NY Fed Services Activity Index SEP",
+"short":"NY Fed Services Activity Index",
+"actual":"",
+"previous":"0.5",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Retail Sales Ex Gas/Autos MoM AUG",
+"short":"Retail Sales Ex Gas/Autos",
+"actual":"",
+"previous":"-0.2%",
+"consensus":"",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Retail Sales YoY AUG",
+"short":"Retail Sales",
+"actual":"",
+"previous":"5%",
+"consensus":"",
+"forecast":"4.3%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"02:00 PM",
+"cb":false,
+"weekLabel":"ECB Elderson Speech",
+"items":[
+{
+"time":"02:00 PM",
+"name":"ECB Elderson Speech",
+"short":"ECB Elderson Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"03:00 PM–03:30 PM",
+"cb":false,
+"weekLabel":"Business Inventories, NAHB Housing Market Index, Retail Inventories Ex Autos, EIA Crude Oil Stocks Change, EIA Gasoline Stocks Change, EIA Crude Oil Imports Change, EIA Cushing Crude Oil Stocks Change, EIA Distillate Fuel Production Change, EIA Distillate Stocks Change, EIA Gasoline Production Change, EIA Heating Oil Stocks Change, EIA Refinery Crude Runs Change",
+"items":[
+{
+"time":"03:00 PM",
+"name":"Business Inventories MoM JUL",
+"short":"Business Inventories",
+"actual":"",
+"previous":"0%",
+"consensus":"0.2%",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"03:00 PM",
+"name":"NAHB Housing Market Index SEP",
+"short":"NAHB Housing Market Index",
+"actual":"",
+"previous":"35",
+"consensus":"34",
+"forecast":"34",
+"cb":false
+},
+{
+"time":"03:00 PM",
+"name":"Retail Inventories Ex Autos MoM JUL",
+"short":"Retail Inventories Ex Autos",
+"actual":"",
+"previous":"-0.5%",
+"consensus":"0.7%",
+"forecast":"0.7%",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Crude Oil Stocks Change SEP/11",
+"short":"EIA Crude Oil Stocks Change",
+"actual":"",
+"previous":"-0.391M",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Gasoline Stocks Change SEP/11",
+"short":"EIA Gasoline Stocks Change",
+"actual":"",
+"previous":"1.269M",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Crude Oil Imports Change SEP/11",
+"short":"EIA Crude Oil Imports Change",
+"actual":"",
+"previous":"1.12M",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Cushing Crude Oil Stocks Change SEP/11",
+"short":"EIA Cushing Crude Oil Stocks Change",
+"actual":"",
+"previous":"-0.684M",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Distillate Fuel Production Change SEP/11",
+"short":"EIA Distillate Fuel Production Change",
+"actual":"",
+"previous":"0.222M",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Distillate Stocks Change SEP/11",
+"short":"EIA Distillate Stocks Change",
+"actual":"",
+"previous":"2.087M",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Gasoline Production Change SEP/11",
+"short":"EIA Gasoline Production Change",
+"actual":"",
+"previous":"-0.537M",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Heating Oil Stocks Change SEP/11",
+"short":"EIA Heating Oil Stocks Change",
+"actual":"",
+"previous":"0.01M",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Refinery Crude Runs Change SEP/11",
+"short":"EIA Refinery Crude Runs Change",
+"actual":"",
+"previous":"0.09M",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"04:30 PM",
+"cb":false,
+"weekLabel":"17-Week Bill Auction",
+"items":[
+{
+"time":"04:30 PM",
+"name":"17-Week Bill Auction",
+"short":"17-Week Bill Auction",
+"actual":"",
+"previous":"3.895%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"EA",
+"time":"06:00 PM",
+"cb":false,
+"weekLabel":"ECB President Lagarde Speech",
+"items":[
+{
+"time":"06:00 PM",
+"name":"ECB President Lagarde Speech",
+"short":"ECB President Lagarde Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"CA",
+"time":"06:30 PM",
+"cb":false,
+"weekLabel":"BoC Summary of Deliberations",
+"items":[
+{
+"time":"06:30 PM",
+"name":"BoC Summary of Deliberations",
+"short":"BoC Summary of Deliberations",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"07:00 PM–07:30 PM",
+"cb":true,
+"weekLabel":"Fed Interest Rate Decision, FOMC Economic Projections, Interest Rate Projection, Fed Press Conference",
+"items":[
+{
+"time":"07:00 PM",
+"name":"Fed Interest Rate Decision",
+"short":"Fed Interest Rate Decision",
+"actual":"",
+"previous":"3.75%",
+"consensus":"4%",
+"forecast":"4%",
+"cb":true
+},
+{
+"time":"07:00 PM",
+"name":"FOMC Economic Projections",
+"short":"FOMC Economic Projections",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":true
+},
+{
+"time":"07:00 PM",
+"name":"Interest Rate Projection - 1st Yr",
+"short":"Interest Rate Projection",
+"actual":"",
+"previous":"3.6%",
+"consensus":"",
+"forecast":"",
+"cb":true
+},
+{
+"time":"07:00 PM",
+"name":"Interest Rate Projection - 2nd Yr",
+"short":"Interest Rate Projection",
+"actual":"",
+"previous":"3.4%",
+"consensus":"",
+"forecast":"",
+"cb":true
+},
+{
+"time":"07:00 PM",
+"name":"Interest Rate Projection - 3rd Yr",
+"short":"Interest Rate Projection",
+"actual":"",
+"previous":"3.1%",
+"consensus":"",
+"forecast":"",
+"cb":true
+},
+{
+"time":"07:00 PM",
+"name":"Interest Rate Projection - Current",
+"short":"Interest Rate Projection",
+"actual":"",
+"previous":"3.8%",
+"consensus":"",
+"forecast":"",
+"cb":true
+},
+{
+"time":"07:00 PM",
+"name":"Interest Rate Projection - Longer",
+"short":"Interest Rate Projection",
+"actual":"",
+"previous":"3.1%",
+"consensus":"",
+"forecast":"",
+"cb":true
+},
+{
+"time":"07:30 PM",
+"name":"Fed Press Conference",
+"short":"Fed Press Conference",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":true
+}
+]
+}
+],
+[],
+[
+{
+"country":"US",
+"time":"09:00 PM",
+"cb":false,
+"weekLabel":"Net Long-term TIC Flows, Foreign Bond Investment, Overall Net Capital Flows",
+"items":[
+{
+"time":"09:00 PM",
+"name":"Net Long-term TIC Flows JUL",
+"short":"Net Long-term TIC Flows",
+"actual":"",
+"previous":"$172.7B",
+"consensus":"$146.3B",
+"forecast":"",
+"cb":false
+},
+{
+"time":"09:00 PM",
+"name":"Foreign Bond Investment JUL",
+"short":"Foreign Bond Investment",
+"actual":"",
+"previous":"$6.8B",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"09:00 PM",
+"name":"Overall Net Capital Flows JUL",
+"short":"Overall Net Capital Flows",
+"actual":"",
+"previous":"$133.5B",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"BR",
+"time":"10:30 PM",
+"cb":true,
+"weekLabel":"Interest Rate Decision",
+"items":[
+{
+"time":"10:30 PM",
+"name":"Interest Rate Decision",
+"short":"Interest Rate Decision",
+"actual":"",
+"previous":"14%",
+"consensus":"",
+"forecast":"13.75%",
+"cb":true
+}
+]
+}
+],
+[]
+]
+},
+{
+"date":"2026-09-17",
+"dow":"Thursday",
+"display":"Thu 17 Sep",
+"allDay":[],
+"hours":[
+[
+{
+"country":"JP",
+"time":"12:50 AM",
+"cb":false,
+"weekLabel":"Foreign Bond Investment, Stock Investment by Foreigners",
+"items":[
+{
+"time":"12:50 AM",
+"name":"Foreign Bond Investment SEP/12",
+"short":"Foreign Bond Investment",
+"actual":"",
+"previous":"¥111.9B",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:50 AM",
+"name":"Stock Investment by Foreigners SEP/12",
+"short":"Stock Investment by Foreigners",
+"actual":"",
+"previous":"¥690B",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"SG",
+"time":"01:30 AM",
+"cb":false,
+"weekLabel":"Balance of Trade, Non-Oil Exports",
+"items":[
+{
+"time":"01:30 AM",
+"name":"Balance of Trade AUG",
+"short":"Balance of Trade",
+"actual":"",
+"previous":"$10.724B",
+"consensus":"",
+"forecast":"$11.0B",
+"cb":false
+},
+{
+"time":"01:30 AM",
+"name":"Non-Oil Exports MoM AUG",
+"short":"Non-Oil Exports",
+"actual":"",
+"previous":"-0.3%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:30 AM",
+"name":"Non-Oil Exports YoY AUG",
+"short":"Non-Oil Exports",
+"actual":"",
+"previous":"24.2%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[
+{
+"country":"JP",
+"time":"04:35 AM",
+"cb":false,
+"weekLabel":"3-Month Bill Auction",
+"items":[
+{
+"time":"04:35 AM",
+"name":"3-Month Bill Auction",
+"short":"3-Month Bill Auction",
+"actual":"",
+"previous":"1.1149%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[],
+[
+{
+"country":"EA",
+"time":"08:00 AM",
+"cb":false,
+"weekLabel":"ECB Lane Speech",
+"items":[
+{
+"time":"08:00 AM",
+"name":"ECB Lane Speech",
+"short":"ECB Lane Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"ZA",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"Consumer Confidence",
+"items":[
+{
+"time":"09:00 AM",
+"name":"Consumer Confidence Q3",
+"short":"Consumer Confidence",
+"actual":"",
+"previous":"-19",
+"consensus":"",
+"forecast":"-20",
+"cb":false
+}
+]
+},
+{
+"country":"ES",
+"time":"09:40 AM",
+"cb":false,
+"weekLabel":"10-Year Obligacion Auction, 5-Year Bonos Auction, 8-Year Obligacion Auction",
+"items":[
+{
+"time":"09:40 AM",
+"name":"10-Year Obligacion Auction",
+"short":"10-Year Obligacion Auction",
+"actual":"",
+"previous":"3.736%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"09:40 AM",
+"name":"5-Year Bonos Auction",
+"short":"5-Year Bonos Auction",
+"actual":"",
+"previous":"3.255%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"09:40 AM",
+"name":"8-Year Obligacion Auction",
+"short":"8-Year Obligacion Auction",
+"actual":"",
+"previous":"2.904%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"10:00 AM",
+"cb":false,
+"weekLabel":"Core Inflation Rate, CPI, Inflation Rate",
+"items":[
+{
+"time":"10:00 AM",
+"name":"Core Inflation Rate YoY Final AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"2.5%",
+"consensus":"2.4%",
+"forecast":"2.4%",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"CPI Final AUG",
+"short":"CPI",
+"actual":"",
+"previous":"103.24",
+"consensus":"103.70",
+"forecast":"103.70",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"Inflation Rate MoM Final AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"0.2%",
+"consensus":"0.4%",
+"forecast":"0.4%",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"Inflation Rate YoY Final AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"2.9%",
+"consensus":"3.3%",
+"forecast":"3.3%",
+"cb":false
+}
+]
+},
+{
+"country":"FR",
+"time":"10:00 AM",
+"cb":false,
+"weekLabel":"2029 OAT Auction, 2031 OAT Auction, 2032 OAT Auction",
+"items":[
+{
+"time":"10:00 AM",
+"name":"2029 OAT Auction",
+"short":"2029 OAT Auction",
+"actual":"",
+"previous":"3.17%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"2031 OAT Auction",
+"short":"2031 OAT Auction",
+"actual":"",
+"previous":"3.37%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:00 AM",
+"name":"2032 OAT Auction",
+"short":"2032 OAT Auction",
+"actual":"",
+"previous":"3.52%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"FR",
+"time":"11:00 AM",
+"cb":false,
+"weekLabel":"2037 OAT€i Auction",
+"items":[
+{
+"time":"11:00 AM",
+"name":"2037 OAT€i Auction",
+"short":"2037 OAT€i Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"TR",
+"time":"12:00 PM–12:30 PM",
+"cb":true,
+"weekLabel":"MPC Meeting Summary, Foreign Exchange Reserves",
+"items":[
+{
+"time":"12:00 PM",
+"name":"MPC Meeting Summary",
+"short":"MPC Meeting Summary",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":true
+},
+{
+"time":"12:30 PM",
+"name":"Foreign Exchange Reserves SEP/11",
+"short":"Foreign Exchange Reserves",
+"actual":"",
+"previous":"$70.406B",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"GB",
+"time":"12:00 PM",
+"cb":true,
+"weekLabel":"BoE Interest Rate Decision, BoE MPC Vote Cut, BoE MPC Vote Hike, BoE MPC Vote Unchanged, MPC Meeting Minutes",
+"items":[
+{
+"time":"12:00 PM",
+"name":"BoE Interest Rate Decision",
+"short":"BoE Interest Rate Decision",
+"actual":"",
+"previous":"3.75%",
+"consensus":"3.75%",
+"forecast":"3.75%",
+"cb":true
+},
+{
+"time":"12:00 PM",
+"name":"BoE MPC Vote Cut",
+"short":"BoE MPC Vote Cut",
+"actual":"",
+"previous":"0/9",
+"consensus":"0/9",
+"forecast":"0/9",
+"cb":true
+},
+{
+"time":"12:00 PM",
+"name":"BoE MPC Vote Hike",
+"short":"BoE MPC Vote Hike",
+"actual":"",
+"previous":"3/9",
+"consensus":"3/9",
+"forecast":"3/9",
+"cb":true
+},
+{
+"time":"12:00 PM",
+"name":"BoE MPC Vote Unchanged",
+"short":"BoE MPC Vote Unchanged",
+"actual":"",
+"previous":"6/9",
+"consensus":"6/9",
+"forecast":"6/9",
+"cb":true
+},
+{
+"time":"12:00 PM",
+"name":"MPC Meeting Minutes",
+"short":"MPC Meeting Minutes",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":true
+}
+]
+}
+],
+[
+{
+"country":"CA",
+"time":"01:30 PM",
+"cb":false,
+"weekLabel":"Foreign Securities Purchases, Foreign Securities Purchases by Canadians, PPI, Raw Materials Prices",
+"items":[
+{
+"time":"01:30 PM",
+"name":"Foreign Securities Purchases JUL",
+"short":"Foreign Securities Purchases",
+"actual":"",
+"previous":"C$40.83B",
+"consensus":"C$28.64B",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Foreign Securities Purchases by Canadians JUL",
+"short":"Foreign Securities Purchases by Canadians",
+"actual":"",
+"previous":"C$35.43B",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"PPI MoM AUG",
+"short":"PPI",
+"actual":"",
+"previous":"0.6%",
+"consensus":"0.3%",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"PPI YoY AUG",
+"short":"PPI",
+"actual":"",
+"previous":"12.4%",
+"consensus":"",
+"forecast":"12.3%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Raw Materials Prices MoM AUG",
+"short":"Raw Materials Prices",
+"actual":"",
+"previous":"-2.2%",
+"consensus":"-0.8%",
+"forecast":"1.1%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Raw Materials Prices YoY AUG",
+"short":"Raw Materials Prices",
+"actual":"",
+"previous":"18.1%",
+"consensus":"",
+"forecast":"16.0%",
+"cb":false
+}
+]
+},
+{
+"country":"ZA",
+"time":"01:30 PM",
+"cb":false,
+"weekLabel":"Building Permits",
+"items":[
+{
+"time":"01:30 PM",
+"name":"Building Permits YoY JUL",
+"short":"Building Permits",
+"actual":"",
+"previous":"30.5%",
+"consensus":"",
+"forecast":"-8.0%",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"01:30 PM",
+"cb":false,
+"weekLabel":"Building Permits, Housing Starts, Initial Jobless Claims, Philadelphia Fed Manufacturing Index, Continuing Jobless Claims, Jobless Claims 4-week Average, Philly Fed Business Conditions, Philly Fed CAPEX Index, Philly Fed Employment, Philly Fed New Orders, Philly Fed Prices Paid",
+"items":[
+{
+"time":"01:30 PM",
+"name":"Building Permits Prel AUG",
+"short":"Building Permits",
+"actual":"",
+"previous":"1.433M",
+"consensus":"1.410M",
+"forecast":"1.41M",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Housing Starts AUG",
+"short":"Housing Starts",
+"actual":"",
+"previous":"1.239M",
+"consensus":"1.320M",
+"forecast":"1.35M",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Building Permits MoM Prel AUG",
+"short":"Building Permits",
+"actual":"",
+"previous":"4.3%",
+"consensus":"",
+"forecast":"-1.6%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Housing Starts MoM AUG",
+"short":"Housing Starts",
+"actual":"",
+"previous":"-12.4%",
+"consensus":"",
+"forecast":"9.0%",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Initial Jobless Claims SEP/12",
+"short":"Initial Jobless Claims",
+"actual":"",
+"previous":"206K",
+"consensus":"209K",
+"forecast":"208.0K",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Philadelphia Fed Manufacturing Index SEP",
+"short":"Philadelphia Fed Manufacturing Index",
+"actual":"",
+"previous":"47.4",
+"consensus":"30",
+"forecast":"47",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Continuing Jobless Claims SEP/05",
+"short":"Continuing Jobless Claims",
+"actual":"",
+"previous":"1774K",
+"consensus":"",
+"forecast":"1775.0K",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Jobless Claims 4-week Average SEP/12",
+"short":"Jobless Claims 4-week Average",
+"actual":"",
+"previous":"206K",
+"consensus":"",
+"forecast":"206.0K",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Philly Fed Business Conditions SEP",
+"short":"Philly Fed Business Conditions",
+"actual":"",
+"previous":"73.6",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Philly Fed CAPEX Index SEP",
+"short":"Philly Fed CAPEX Index",
+"actual":"",
+"previous":"48.20",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Philly Fed Employment SEP",
+"short":"Philly Fed Employment",
+"actual":"",
+"previous":"27.9",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Philly Fed New Orders SEP",
+"short":"Philly Fed New Orders",
+"actual":"",
+"previous":"30.1",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:30 PM",
+"name":"Philly Fed Prices Paid SEP",
+"short":"Philly Fed Prices Paid",
+"actual":"",
+"previous":"40.90",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"US",
+"time":"03:00 PM–03:30 PM",
+"cb":false,
+"weekLabel":"Pending Home Sales, EIA Natural Gas Stocks Change",
+"items":[
+{
+"time":"03:00 PM",
+"name":"Pending Home Sales MoM AUG",
+"short":"Pending Home Sales",
+"actual":"",
+"previous":"-2.3%",
+"consensus":"2%",
+"forecast":"0.4%",
+"cb":false
+},
+{
+"time":"03:00 PM",
+"name":"Pending Home Sales YoY AUG",
+"short":"Pending Home Sales",
+"actual":"",
+"previous":"-2.2%",
+"consensus":"",
+"forecast":"-1.7%",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Natural Gas Stocks Change SEP/11",
+"short":"EIA Natural Gas Stocks Change",
+"actual":"",
+"previous":"40Bcf",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"04:30 PM",
+"cb":false,
+"weekLabel":"4-Week Bill Auction, 8-Week Bill Auction",
+"items":[
+{
+"time":"04:30 PM",
+"name":"4-Week Bill Auction",
+"short":"4-Week Bill Auction",
+"actual":"",
+"previous":"3.775%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"04:30 PM",
+"name":"8-Week Bill Auction",
+"short":"8-Week Bill Auction",
+"actual":"",
+"previous":"3.845%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"CA",
+"time":"05:00 PM",
+"cb":false,
+"weekLabel":"30-Year Bond Auction",
+"items":[
+{
+"time":"05:00 PM",
+"name":"30-Year Bond Auction",
+"short":"30-Year Bond Auction",
+"actual":"",
+"previous":"3.968%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"05:00 PM",
+"cb":false,
+"weekLabel":"15-Year Mortgage Rate, 30-Year Mortgage Rate",
+"items":[
+{
+"time":"05:00 PM",
+"name":"15-Year Mortgage Rate SEP/17",
+"short":"15-Year Mortgage Rate",
+"actual":"",
+"previous":"6.09%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"05:00 PM",
+"name":"30-Year Mortgage Rate SEP/17",
+"short":"30-Year Mortgage Rate",
+"actual":"",
+"previous":"6.76%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"06:00 PM",
+"cb":false,
+"weekLabel":"10-Year TIPS Auction",
+"items":[
+{
+"time":"06:00 PM",
+"name":"10-Year TIPS Auction",
+"short":"10-Year TIPS Auction",
+"actual":"",
+"previous":"2.438%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[
+{
+"country":"US",
+"time":"09:30 PM",
+"cb":false,
+"weekLabel":"Fed Balance Sheet",
+"items":[
+{
+"time":"09:30 PM",
+"name":"Fed Balance Sheet SEP/16",
+"short":"Fed Balance Sheet",
+"actual":"",
+"previous":"$6.741T",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"KR",
+"time":"10:00 PM",
+"cb":false,
+"weekLabel":"PPI",
+"items":[
+{
+"time":"10:00 PM",
+"name":"PPI MoM AUG",
+"short":"PPI",
+"actual":"",
+"previous":"-0.4%",
+"consensus":"",
+"forecast":"0.3%",
+"cb":false
+},
+{
+"time":"10:00 PM",
+"name":"PPI YoY AUG",
+"short":"PPI",
+"actual":"",
+"previous":"7.7%",
+"consensus":"",
+"forecast":"8.1%",
+"cb":false
+}
+]
+}
+],
+[]
+]
+},
+{
+"date":"2026-09-18",
+"dow":"Friday",
+"display":"Fri 18 Sep",
+"allDay":[
+{
+"country":"EA",
+"time":"All Day",
+"cb":false,
+"weekLabel":"Eurogroup Meeting",
+"items":[
+{
+"time":"All Day",
+"name":"Eurogroup Meeting",
+"short":"Eurogroup Meeting",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"EU",
+"time":"All Day",
+"cb":false,
+"weekLabel":"ECOFIN Meeting",
+"items":[
+{
+"time":"All Day",
+"name":"ECOFIN Meeting",
+"short":"ECOFIN Meeting",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+"hours":[
+[
+{
+"country":"JP",
+"time":"12:30 AM",
+"cb":false,
+"weekLabel":"Inflation Rate, Core Inflation Rate, Inflation Rate Ex-Food and Energy",
+"items":[
+{
+"time":"12:30 AM",
+"name":"Inflation Rate YoY AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"2%",
+"consensus":"",
+"forecast":"2.1%",
+"cb":false
+},
+{
+"time":"12:30 AM",
+"name":"Core Inflation Rate YoY AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"1.8%",
+"consensus":"1.8%",
+"forecast":"1.8%",
+"cb":false
+},
+{
+"time":"12:30 AM",
+"name":"Inflation Rate Ex-Food and Energy YoY AUG",
+"short":"Inflation Rate Ex-Food and Energy",
+"actual":"",
+"previous":"1.9%",
+"consensus":"",
+"forecast":"1.9%",
+"cb":false
+},
+{
+"time":"12:30 AM",
+"name":"Inflation Rate MoM AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"0.4%",
+"consensus":"",
+"forecast":"0.2%",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[],
+[
+{
+"country":"JP",
+"time":"04:00 AM",
+"cb":true,
+"weekLabel":"BoJ Interest Rate Decision",
+"items":[
+{
+"time":"04:00 AM",
+"name":"BoJ Interest Rate Decision",
+"short":"BoJ Interest Rate Decision",
+"actual":"",
+"previous":"1%",
+"consensus":"1.25%",
+"forecast":"1.25%",
+"cb":true
+}
+]
+}
+],
+[],
+[],
+[
+{
+"country":"DE",
+"time":"07:00 AM",
+"cb":false,
+"weekLabel":"PPI",
+"items":[
+{
+"time":"07:00 AM",
+"name":"PPI YoY AUG",
+"short":"PPI",
+"actual":"",
+"previous":"3%",
+"consensus":"",
+"forecast":"4.0%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"PPI MoM AUG",
+"short":"PPI",
+"actual":"",
+"previous":"1.1%",
+"consensus":"0.6%",
+"forecast":"0.5%",
+"cb":false
+}
+]
+},
+{
+"country":"GB",
+"time":"07:00 AM",
+"cb":false,
+"weekLabel":"Retail Sales, Retail Sales ex Fuel",
+"items":[
+{
+"time":"07:00 AM",
+"name":"Retail Sales MoM AUG",
+"short":"Retail Sales",
+"actual":"",
+"previous":"-0.5%",
+"consensus":"-0.3%",
+"forecast":"-0.1%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Retail Sales YoY AUG",
+"short":"Retail Sales",
+"actual":"",
+"previous":"1.6%",
+"consensus":"",
+"forecast":"1.0%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Retail Sales ex Fuel MoM AUG",
+"short":"Retail Sales ex Fuel",
+"actual":"",
+"previous":"-0.9%",
+"consensus":"",
+"forecast":"-0.1%",
+"cb":false
+},
+{
+"time":"07:00 AM",
+"name":"Retail Sales ex Fuel YoY AUG",
+"short":"Retail Sales ex Fuel",
+"actual":"",
+"previous":"2.3%",
+"consensus":"",
+"forecast":"2.5%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"EA",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"Current Account, Current Account s.a, ECB Consumer Inflation Expectations",
+"items":[
+{
+"time":"09:00 AM",
+"name":"Current Account JUL",
+"short":"Current Account",
+"actual":"",
+"previous":"€46.9B",
+"consensus":"",
+"forecast":"€36.0B",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"Current Account s.a JUL",
+"short":"Current Account s.a",
+"actual":"",
+"previous":"€35.1B",
+"consensus":"€30.7B",
+"forecast":"€30.4B",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"ECB Consumer Inflation Expectations AUG",
+"short":"ECB Consumer Inflation Expectations",
+"actual":"",
+"previous":"2.9%",
+"consensus":"",
+"forecast":"3.0%",
+"cb":false
+}
+]
+},
+{
+"country":"IT",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"Construction Output, Current Account",
+"items":[
+{
+"time":"09:00 AM",
+"name":"Construction Output YoY JUL",
+"short":"Construction Output",
+"actual":"",
+"previous":"2.9%",
+"consensus":"",
+"forecast":"-2.0%",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"Construction Output YoY JUN",
+"short":"Construction Output",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"-1.2%",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"Current Account JUL",
+"short":"Current Account",
+"actual":"",
+"previous":"€5839M",
+"consensus":"",
+"forecast":"€5400.0M",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"10:00 AM",
+"cb":false,
+"weekLabel":"Construction Output",
+"items":[
+{
+"time":"10:00 AM",
+"name":"Construction Output YoY JUL",
+"short":"Construction Output",
+"actual":"",
+"previous":"-0.7%",
+"consensus":"",
+"forecast":"-1.0%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"11:30 AM",
+"cb":false,
+"weekLabel":"ECB President Lagarde Speech",
+"items":[
+{
+"time":"11:30 AM",
+"name":"ECB President Lagarde Speech",
+"short":"ECB President Lagarde Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"CA",
+"time":"12:00 PM",
+"cb":false,
+"weekLabel":"CFIB Business Barometer",
+"items":[
+{
+"time":"12:00 PM",
+"name":"CFIB Business Barometer SEP",
+"short":"CFIB Business Barometer",
+"actual":"",
+"previous":"57.6",
+"consensus":"",
+"forecast":"53",
+"cb":false
+}
+]
+},
+{
+"country":"IN",
+"time":"12:30 PM",
+"cb":false,
+"weekLabel":"Bank Loan Growth, Deposit Growth, Foreign Exchange Reserves",
+"items":[
+{
+"time":"12:30 PM",
+"name":"Bank Loan Growth YoY AUG/30",
+"short":"Bank Loan Growth",
+"actual":"",
+"previous":"18.3%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:30 PM",
+"name":"Deposit Growth YoY AUG/30",
+"short":"Deposit Growth",
+"actual":"",
+"previous":"14.7%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:30 PM",
+"name":"Foreign Exchange Reserves SEP/11",
+"short":"Foreign Exchange Reserves",
+"actual":"",
+"previous":"$785.71B",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"MX",
+"time":"01:00 PM",
+"cb":false,
+"weekLabel":"Aggregate Demand, Private Spending",
+"items":[
+{
+"time":"01:00 PM",
+"name":"Aggregate Demand QoQ Q2",
+"short":"Aggregate Demand",
+"actual":"",
+"previous":"0.3%",
+"consensus":"",
+"forecast":"0.9%",
+"cb":false
+},
+{
+"time":"01:00 PM",
+"name":"Aggregate Demand YoY Q2",
+"short":"Aggregate Demand",
+"actual":"",
+"previous":"5%",
+"consensus":"",
+"forecast":"6.0%",
+"cb":false
+},
+{
+"time":"01:00 PM",
+"name":"Private Spending QoQ Q2",
+"short":"Private Spending",
+"actual":"",
+"previous":"-0.8%",
+"consensus":"",
+"forecast":"1.1%",
+"cb":false
+},
+{
+"time":"01:00 PM",
+"name":"Private Spending YoY Q2",
+"short":"Private Spending",
+"actual":"",
+"previous":"2.2%",
+"consensus":"",
+"forecast":"3.0%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"02:15 PM–02:30 PM",
+"cb":false,
+"weekLabel":"Industrial Production, Capacity Utilization, Manufacturing Production, Fed Bowman Speech",
+"items":[
+{
+"time":"02:15 PM",
+"name":"Industrial Production MoM AUG",
+"short":"Industrial Production",
+"actual":"",
+"previous":"0.2%",
+"consensus":"0.3%",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"02:15 PM",
+"name":"Capacity Utilization AUG",
+"short":"Capacity Utilization",
+"actual":"",
+"previous":"76.3%",
+"consensus":"76.4%",
+"forecast":"76.4%",
+"cb":false
+},
+{
+"time":"02:15 PM",
+"name":"Industrial Production YoY AUG",
+"short":"Industrial Production",
+"actual":"",
+"previous":"1.1%",
+"consensus":"",
+"forecast":"1.0%",
+"cb":false
+},
+{
+"time":"02:15 PM",
+"name":"Manufacturing Production MoM AUG",
+"short":"Manufacturing Production",
+"actual":"",
+"previous":"0.2%",
+"consensus":"",
+"forecast":"0.1%",
+"cb":false
+},
+{
+"time":"02:15 PM",
+"name":"Manufacturing Production YoY AUG",
+"short":"Manufacturing Production",
+"actual":"",
+"previous":"1.2%",
+"consensus":"",
+"forecast":"1.1%",
+"cb":false
+},
+{
+"time":"02:30 PM",
+"name":"Fed Bowman Speech",
+"short":"Fed Bowman Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"03:00 PM",
+"cb":false,
+"weekLabel":"CB Leading Index",
+"items":[
+{
+"time":"03:00 PM",
+"name":"CB Leading Index MoM AUG",
+"short":"CB Leading Index",
+"actual":"",
+"previous":"0.2%",
+"consensus":"0.2%",
+"forecast":"0.1%",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[
+{
+"country":"US",
+"time":"06:00 PM",
+"cb":false,
+"weekLabel":"Baker Hughes: Oil Rig Count, Total Rigs Count",
+"items":[
+{
+"time":"06:00 PM",
+"name":"Baker Hughes Oil Rig Count SEP/18",
+"short":"Baker Hughes Oil Rig Count",
+"actual":"",
+"previous":"450",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"06:00 PM",
+"name":"Baker Hughes Total Rigs Count SEP/18",
+"short":"Baker Hughes Total Rigs Count",
+"actual":"",
+"previous":"591",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[],
+[],
+[]
+]
+},
+{
+"date":"2026-09-19",
+"dow":"Saturday",
+"display":"Sat 19 Sep",
+"allDay":[
+{
+"country":"EU",
+"time":"All Day",
+"cb":false,
+"weekLabel":"ECOFIN Meeting",
+"items":[
+{
+"time":"All Day",
+"name":"ECOFIN Meeting",
+"short":"ECOFIN Meeting",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+"hours":[
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[]
+]
+},
+{
+"date":"2026-09-20",
+"dow":"Sunday",
+"display":"Sun 20 Sep",
+"allDay":[],
+"hours":[
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[]
+]
+}
+]
+},
+{
+"label":"Week 2",
+"range":"21 Sep – 27 Sep 2026",
+"days":[
+{
+"date":"2026-09-21",
+"dow":"Monday",
+"display":"Mon 21 Sep",
+"allDay":[
+{
+"country":"DE",
+"time":"All Day",
+"cb":false,
+"weekLabel":"11-Month Bubill Auction, 5-Month Bubill Auction",
+"items":[
+{
+"time":"All Day",
+"name":"11-Month Bubill Auction",
+"short":"11-Month Bubill Auction",
+"actual":"",
+"previous":"2.647%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"All Day",
+"name":"5-Month Bubill Auction",
+"short":"5-Month Bubill Auction",
+"actual":"",
+"previous":"2.492%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"BR",
+"time":"All Day",
+"cb":false,
+"weekLabel":"BCB Focus Market Readout",
+"items":[
+{
+"time":"All Day",
+"name":"BCB Focus Market Readout",
+"short":"BCB Focus Market Readout",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+"hours":[
+[],
+[],
+[
+{
+"country":"CN",
+"time":"02:15 AM",
+"cb":false,
+"weekLabel":"Loan Prime Rate: 1Y, 5Y",
+"items":[
+{
+"time":"02:15 AM",
+"name":"Loan Prime Rate 1Y",
+"short":"Loan Prime Rate 1Y",
+"actual":"",
+"previous":"3.0%",
+"consensus":"",
+"forecast":"3.0%",
+"cb":false
+},
+{
+"time":"02:15 AM",
+"name":"Loan Prime Rate 5Y SEP",
+"short":"Loan Prime Rate 5Y",
+"actual":"",
+"previous":"3.5%",
+"consensus":"",
+"forecast":"3.5%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"SG",
+"time":"03:30 AM",
+"cb":false,
+"weekLabel":"Unemployment Rate",
+"items":[
+{
+"time":"03:30 AM",
+"name":"Unemployment Rate Final Q2",
+"short":"Unemployment Rate",
+"actual":"",
+"previous":"2.0%",
+"consensus":"2%",
+"forecast":"2.0%",
+"cb":false
+}
+]
+},
+{
+"country":"KR",
+"time":"03:30 AM",
+"cb":false,
+"weekLabel":"5-Year KTB Auction",
+"items":[
+{
+"time":"03:30 AM",
+"name":"5-Year KTB Auction",
+"short":"5-Year KTB Auction",
+"actual":"",
+"previous":"4.131%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[],
+[],
+[
+{
+"country":"TR",
+"time":"08:00 AM",
+"cb":false,
+"weekLabel":"Business Confidence, Capacity Utilization",
+"items":[
+{
+"time":"08:00 AM",
+"name":"Business Confidence SEP",
+"short":"Business Confidence",
+"actual":"",
+"previous":"102.8",
+"consensus":"",
+"forecast":"103",
+"cb":false
+},
+{
+"time":"08:00 AM",
+"name":"Capacity Utilization SEP",
+"short":"Capacity Utilization",
+"actual":"",
+"previous":"73.5%",
+"consensus":"",
+"forecast":"74.9%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"ZA",
+"time":"10:30 AM",
+"cb":false,
+"weekLabel":"182-Day T-Bill Auction, 273-Day T-Bill Auction, 364-Day T-Bill Auction, 91-Day T-Bill Auction",
+"items":[
+{
+"time":"10:30 AM",
+"name":"182-Day T-Bill Auction",
+"short":"182-Day T-Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:30 AM",
+"name":"273-Day T-Bill Auction",
+"short":"273-Day T-Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:30 AM",
+"name":"364-Day T-Bill Auction",
+"short":"364-Day T-Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"10:30 AM",
+"name":"91-Day T-Bill Auction",
+"short":"91-Day T-Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"11:30 AM",
+"cb":false,
+"weekLabel":"Fed Goolsbee Speech",
+"items":[
+{
+"time":"11:30 AM",
+"name":"Fed Goolsbee Speech",
+"short":"Fed Goolsbee Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"IN",
+"time":"12:30 PM",
+"cb":false,
+"weekLabel":"Infrastructure Output",
+"items":[
+{
+"time":"12:30 PM",
+"name":"Infrastructure Output YoY AUG",
+"short":"Infrastructure Output",
+"actual":"",
+"previous":"5.4%",
+"consensus":"",
+"forecast":"5.5%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"01:30 PM",
+"cb":false,
+"weekLabel":"Chicago Fed National Activity Index",
+"items":[
+{
+"time":"01:30 PM",
+"name":"Chicago Fed National Activity Index AUG",
+"short":"Chicago Fed National Activity Index",
+"actual":"",
+"previous":"-0.08",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"FR",
+"time":"02:00 PM",
+"cb":false,
+"weekLabel":"12-Month BTF Auction, 3-Month BTF Auction, 6-Month BTF Auction",
+"items":[
+{
+"time":"02:00 PM",
+"name":"12-Month BTF Auction",
+"short":"12-Month BTF Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"02:00 PM",
+"name":"3-Month BTF Auction",
+"short":"3-Month BTF Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"02:00 PM",
+"name":"6-Month BTF Auction",
+"short":"6-Month BTF Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"TR",
+"time":"03:30 PM",
+"cb":false,
+"weekLabel":"Central Government Debt",
+"items":[
+{
+"time":"03:30 PM",
+"name":"Central Government Debt AUG",
+"short":"Central Government Debt",
+"actual":"",
+"previous":"TRY15.463T",
+"consensus":"",
+"forecast":"TRY 15.948T",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"04:30 PM",
+"cb":false,
+"weekLabel":"3-Month Bill Auction, 6-Month Bill Auction",
+"items":[
+{
+"time":"04:30 PM",
+"name":"3-Month Bill Auction",
+"short":"3-Month Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"04:30 PM",
+"name":"6-Month Bill Auction",
+"short":"6-Month Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[],
+[
+{
+"country":"AU",
+"time":"08:00 PM",
+"cb":false,
+"weekLabel":"RBA Hunter Speech",
+"items":[
+{
+"time":"08:00 PM",
+"name":"RBA Hunter Speech",
+"short":"RBA Hunter Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[]
+]
+},
+{
+"date":"2026-09-22",
+"dow":"Tuesday",
+"display":"Tue 22 Sep",
+"allDay":[],
+"hours":[
+[],
+[],
+[],
+[
+{
+"country":"KR",
+"time":"03:30 AM",
+"cb":false,
+"weekLabel":"20-Year KTB Auction",
+"items":[
+{
+"time":"03:30 AM",
+"name":"20-Year KTB Auction",
+"short":"20-Year KTB Auction",
+"actual":"",
+"previous":"4.555%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[
+{
+"country":"SG",
+"time":"06:00 AM",
+"cb":false,
+"weekLabel":"MAS 12-Week Bill Auction, MAS 4-Week Bill Auction",
+"items":[
+{
+"time":"06:00 AM",
+"name":"MAS 12-Week Bill Auction",
+"short":"MAS 12-Week Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"06:00 AM",
+"name":"MAS 4-Week Bill Auction",
+"short":"MAS 4-Week Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"GB",
+"time":"07:00 AM",
+"cb":false,
+"weekLabel":"Public Sector Net Borrowing Ex Banks",
+"items":[
+{
+"time":"07:00 AM",
+"name":"Public Sector Net Borrowing Ex Banks AUG",
+"short":"Public Sector Net Borrowing Ex Banks",
+"actual":"",
+"previous":"£-1.8B",
+"consensus":"",
+"forecast":"£-12.8B",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"ZA",
+"time":"08:00 AM",
+"cb":false,
+"weekLabel":"Leading Business Cycle Indicator",
+"items":[
+{
+"time":"08:00 AM",
+"name":"Leading Business Cycle Indicator MoM JUL",
+"short":"Leading Business Cycle Indicator",
+"actual":"",
+"previous":"-1.4%",
+"consensus":"",
+"forecast":"0.7%",
+"cb":false
+}
+]
+},
+{
+"country":"TR",
+"time":"08:00 AM",
+"cb":false,
+"weekLabel":"Consumer Confidence",
+"items":[
+{
+"time":"08:00 AM",
+"name":"Consumer Confidence SEP",
+"short":"Consumer Confidence",
+"actual":"",
+"previous":"90.8",
+"consensus":"",
+"forecast":"88",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"ES",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"Balance of Trade",
+"items":[
+{
+"time":"09:00 AM",
+"name":"Balance of Trade JUL",
+"short":"Balance of Trade",
+"actual":"",
+"previous":"€-7.69B",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"GB",
+"time":"10:00 AM",
+"cb":false,
+"weekLabel":"New Conventional Gilt 2032",
+"items":[
+{
+"time":"10:00 AM",
+"name":"New Conventional Gilt 2032",
+"short":"New Conventional Gilt 2032",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"DE",
+"time":"10:30 AM",
+"cb":false,
+"weekLabel":"5-Year Bobl Auction",
+"items":[
+{
+"time":"10:30 AM",
+"name":"5-Year Bobl Auction",
+"short":"5-Year Bobl Auction",
+"actual":"",
+"previous":"3.09%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"ZA",
+"time":"10:30 AM",
+"cb":false,
+"weekLabel":"Weekly Bond Auction",
+"items":[
+{
+"time":"10:30 AM",
+"name":"Weekly Bond Auction",
+"short":"Weekly Bond Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"GB",
+"time":"11:00 AM",
+"cb":false,
+"weekLabel":"CBI Industrial Trends Orders",
+"items":[
+{
+"time":"11:00 AM",
+"name":"CBI Industrial Trends Orders SEP",
+"short":"CBI Industrial Trends Orders",
+"actual":"",
+"previous":"-25",
+"consensus":"",
+"forecast":"-40",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"BR",
+"time":"12:00 PM",
+"cb":false,
+"weekLabel":"BCB Copom Meeting Minutes",
+"items":[
+{
+"time":"12:00 PM",
+"name":"BCB Copom Meeting Minutes",
+"short":"BCB Copom Meeting Minutes",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"MX",
+"time":"01:00 PM",
+"cb":false,
+"weekLabel":"Retail Sales",
+"items":[
+{
+"time":"01:00 PM",
+"name":"Retail Sales MoM JUL",
+"short":"Retail Sales",
+"actual":"",
+"previous":"-0.2%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:00 PM",
+"name":"Retail Sales YoY JUL",
+"short":"Retail Sales",
+"actual":"",
+"previous":"2.7%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"01:15 PM–01:55 PM",
+"cb":false,
+"weekLabel":"ADP Employment Change Weekly, Redbook",
+"items":[
+{
+"time":"01:15 PM",
+"name":"ADP Employment Change Weekly",
+"short":"ADP Employment Change Weekly",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"01:55 PM",
+"name":"Redbook YoY SEP/19",
+"short":"Redbook",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"EA",
+"time":"03:00 PM",
+"cb":false,
+"weekLabel":"Consumer Confidence Flash",
+"items":[
+{
+"time":"03:00 PM",
+"name":"Consumer Confidence Flash SEP",
+"short":"Consumer Confidence Flash",
+"actual":"",
+"previous":"-15.5",
+"consensus":"",
+"forecast":"-17",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"03:00 PM–03:20 PM",
+"cb":false,
+"weekLabel":"Richmond Fed Manufacturing Index, Richmond Fed Manufacturing Shipments Index, Richmond Fed Services Revenues Index, Fed Williams Speech, Fed Jefferson Speech",
+"items":[
+{
+"time":"03:00 PM",
+"name":"Richmond Fed Manufacturing Index SEP",
+"short":"Richmond Fed Manufacturing Index",
+"actual":"",
+"previous":"4",
+"consensus":"",
+"forecast":"-1",
+"cb":false
+},
+{
+"time":"03:00 PM",
+"name":"Richmond Fed Manufacturing Shipments Index SEP",
+"short":"Richmond Fed Manufacturing Shipments Index",
+"actual":"",
+"previous":"11",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:00 PM",
+"name":"Richmond Fed Services Revenues Index SEP",
+"short":"Richmond Fed Services Revenues Index",
+"actual":"",
+"previous":"-8",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:05 PM",
+"name":"Fed Williams Speech",
+"short":"Fed Williams Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:20 PM",
+"name":"Fed Jefferson Speech",
+"short":"Fed Jefferson Speech",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"04:30 PM",
+"cb":false,
+"weekLabel":"6-Week Bill Auction",
+"items":[
+{
+"time":"04:30 PM",
+"name":"6-Week Bill Auction",
+"short":"6-Week Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"US",
+"time":"06:00 PM",
+"cb":false,
+"weekLabel":"2-Year Note Auction, Money Supply",
+"items":[
+{
+"time":"06:00 PM",
+"name":"2-Year Note Auction",
+"short":"2-Year Note Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"06:00 PM",
+"name":"Money Supply AUG",
+"short":"Money Supply",
+"actual":"",
+"previous":"$23.22T",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[
+{
+"country":"US",
+"time":"09:30 PM",
+"cb":false,
+"weekLabel":"API Crude Oil Stock Change",
+"items":[
+{
+"time":"09:30 PM",
+"name":"API Crude Oil Stock Change SEP/18",
+"short":"API Crude Oil Stock Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"KR",
+"time":"10:00 PM",
+"cb":false,
+"weekLabel":"Consumer Confidence",
+"items":[
+{
+"time":"10:00 PM",
+"name":"Consumer Confidence SEP",
+"short":"Consumer Confidence",
+"actual":"",
+"previous":"104.5",
+"consensus":"",
+"forecast":"104.3",
+"cb":false
+}
+]
+}
+],
+[]
+]
+},
+{
+"date":"2026-09-23",
+"dow":"Wednesday",
+"display":"Wed 23 Sep",
+"allDay":[],
+"hours":[
+[
+{
+"country":"AU",
+"time":"12:00 AM",
+"cb":false,
+"weekLabel":"S&P Global: Manufacturing PMI Flash, Services PMI Flash, Composite PMI Flash",
+"items":[
+{
+"time":"12:00 AM",
+"name":"S&P Global Manufacturing PMI Flash SEP",
+"short":"S&P Global Manufacturing PMI Flash",
+"actual":"",
+"previous":"52.0",
+"consensus":"",
+"forecast":"51.7",
+"cb":false
+},
+{
+"time":"12:00 AM",
+"name":"S&P Global Services PMI Flash SEP",
+"short":"S&P Global Services PMI Flash",
+"actual":"",
+"previous":"53.2",
+"consensus":"",
+"forecast":"52.5",
+"cb":false
+},
+{
+"time":"12:00 AM",
+"name":"S&P Global Composite PMI Flash SEP",
+"short":"S&P Global Composite PMI Flash",
+"actual":"",
+"previous":"52.7",
+"consensus":"",
+"forecast":"52",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[],
+[],
+[],
+[
+{
+"country":"IN",
+"time":"06:00 AM",
+"cb":false,
+"weekLabel":"HSBC Composite PMI Flash, HSBC Manufacturing PMI Flash, HSBC Services PMI Flash",
+"items":[
+{
+"time":"06:00 AM",
+"name":"HSBC Composite PMI Flash SEP",
+"short":"HSBC Composite PMI Flash",
+"actual":"",
+"previous":"54.3",
+"consensus":"",
+"forecast":"54.5",
+"cb":false
+},
+{
+"time":"06:00 AM",
+"name":"HSBC Manufacturing PMI Flash SEP",
+"short":"HSBC Manufacturing PMI Flash",
+"actual":"",
+"previous":"52.8",
+"consensus":"",
+"forecast":"53.2",
+"cb":false
+},
+{
+"time":"06:00 AM",
+"name":"HSBC Services PMI Flash SEP",
+"short":"HSBC Services PMI Flash",
+"actual":"",
+"previous":"54.1",
+"consensus":"",
+"forecast":"54.7",
+"cb":false
+}
+]
+},
+{
+"country":"SG",
+"time":"06:00 AM",
+"cb":false,
+"weekLabel":"Core Inflation Rate, Inflation Rate",
+"items":[
+{
+"time":"06:00 AM",
+"name":"Core Inflation Rate YoY AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"2%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"06:00 AM",
+"name":"Inflation Rate MoM AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"-0.2%",
+"consensus":"",
+"forecast":"0.4%",
+"cb":false
+},
+{
+"time":"06:00 AM",
+"name":"Inflation Rate YoY AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"2.2%",
+"consensus":"",
+"forecast":"2.2%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"FR",
+"time":"08:15 AM",
+"cb":false,
+"weekLabel":"S&P Global: Composite PMI Flash, Manufacturing PMI Flash, Services PMI Flash",
+"items":[
+{
+"time":"08:15 AM",
+"name":"S&P Global Composite PMI Flash SEP",
+"short":"S&P Global Composite PMI Flash",
+"actual":"",
+"previous":"48.5",
+"consensus":"",
+"forecast":"49.1",
+"cb":false
+},
+{
+"time":"08:15 AM",
+"name":"S&P Global Manufacturing PMI Flash SEP",
+"short":"S&P Global Manufacturing PMI Flash",
+"actual":"",
+"previous":"51.1",
+"consensus":"",
+"forecast":"51",
+"cb":false
+},
+{
+"time":"08:15 AM",
+"name":"S&P Global Services PMI Flash SEP",
+"short":"S&P Global Services PMI Flash",
+"actual":"",
+"previous":"48.0",
+"consensus":"",
+"forecast":"49.1",
+"cb":false
+}
+]
+},
+{
+"country":"DE",
+"time":"08:30 AM",
+"cb":false,
+"weekLabel":"S&P Global: Manufacturing PMI Flash, Composite PMI Flash, Services PMI Flash",
+"items":[
+{
+"time":"08:30 AM",
+"name":"S&P Global Manufacturing PMI Flash SEP",
+"short":"S&P Global Manufacturing PMI Flash",
+"actual":"",
+"previous":"54.3",
+"consensus":"",
+"forecast":"53.6",
+"cb":false
+},
+{
+"time":"08:30 AM",
+"name":"S&P Global Composite PMI Flash SEP",
+"short":"S&P Global Composite PMI Flash",
+"actual":"",
+"previous":"51.8",
+"consensus":"",
+"forecast":"51.7",
+"cb":false
+},
+{
+"time":"08:30 AM",
+"name":"S&P Global Services PMI Flash SEP",
+"short":"S&P Global Services PMI Flash",
+"actual":"",
+"previous":"49.7",
+"consensus":"",
+"forecast":"50.5",
+"cb":false
+}
+]
+},
+{
+"country":"ID",
+"time":"08:30 AM",
+"cb":true,
+"weekLabel":"Interest Rate Decision, Deposit Facility Rate, Lending Facility Rate, Loan Growth",
+"items":[
+{
+"time":"08:30 AM",
+"name":"Interest Rate Decision",
+"short":"Interest Rate Decision",
+"actual":"",
+"previous":"5.75%",
+"consensus":"",
+"forecast":"5.75%",
+"cb":true
+},
+{
+"time":"08:30 AM",
+"name":"Deposit Facility Rate SEP",
+"short":"Deposit Facility Rate",
+"actual":"",
+"previous":"4.75%",
+"consensus":"",
+"forecast":"4.75%",
+"cb":true
+},
+{
+"time":"08:30 AM",
+"name":"Lending Facility Rate SEP",
+"short":"Lending Facility Rate",
+"actual":"",
+"previous":"6.5%",
+"consensus":"",
+"forecast":"6.5%",
+"cb":false
+},
+{
+"time":"08:30 AM",
+"name":"Loan Growth YoY AUG",
+"short":"Loan Growth",
+"actual":"",
+"previous":"13.58%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EA",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"S&P Global: Composite PMI Flash, Manufacturing PMI Flash, Services PMI Flash",
+"items":[
+{
+"time":"09:00 AM",
+"name":"S&P Global Composite PMI Flash SEP",
+"short":"S&P Global Composite PMI Flash",
+"actual":"",
+"previous":"52.0",
+"consensus":"",
+"forecast":"51.7",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"S&P Global Manufacturing PMI Flash SEP",
+"short":"S&P Global Manufacturing PMI Flash",
+"actual":"",
+"previous":"52.7",
+"consensus":"",
+"forecast":"52.7",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"S&P Global Services PMI Flash SEP",
+"short":"S&P Global Services PMI Flash",
+"actual":"",
+"previous":"51.6",
+"consensus":"",
+"forecast":"51.5",
+"cb":false
+}
+]
+},
+{
+"country":"ZA",
+"time":"09:00 AM",
+"cb":false,
+"weekLabel":"Inflation Rate, Core Inflation Rate",
+"items":[
+{
+"time":"09:00 AM",
+"name":"Inflation Rate MoM AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"0.2%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"Inflation Rate YoY AUG",
+"short":"Inflation Rate",
+"actual":"",
+"previous":"4.3%",
+"consensus":"",
+"forecast":"4.7%",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"Core Inflation Rate MoM AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"0.5%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"09:00 AM",
+"name":"Core Inflation Rate YoY AUG",
+"short":"Core Inflation Rate",
+"actual":"",
+"previous":"4.2%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"GB",
+"time":"09:30 AM",
+"cb":false,
+"weekLabel":"S&P Global: Manufacturing PMI Flash, Services PMI Flash, Composite PMI Flash",
+"items":[
+{
+"time":"09:30 AM",
+"name":"S&P Global Manufacturing PMI Flash SEP",
+"short":"S&P Global Manufacturing PMI Flash",
+"actual":"",
+"previous":"51.7",
+"consensus":"",
+"forecast":"51.7",
+"cb":false
+},
+{
+"time":"09:30 AM",
+"name":"S&P Global Services PMI Flash SEP",
+"short":"S&P Global Services PMI Flash",
+"actual":"",
+"previous":"52.5",
+"consensus":"",
+"forecast":"52.6",
+"cb":false
+},
+{
+"time":"09:30 AM",
+"name":"S&P Global Composite PMI Flash SEP",
+"short":"S&P Global Composite PMI Flash",
+"actual":"",
+"previous":"52.5",
+"consensus":"",
+"forecast":"52.3",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"DE",
+"time":"10:30 AM",
+"cb":false,
+"weekLabel":"15/20-Year Bund Auction",
+"items":[
+{
+"time":"10:30 AM",
+"name":"15/20-Year Bund Auction",
+"short":"15/20-Year Bund Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"US",
+"time":"12:00 PM",
+"cb":false,
+"weekLabel":"MBA 30-Year Mortgage Rate, MBA Mortgage Applications, MBA Mortgage Market Index, MBA Mortgage Refinance Index, MBA Purchase Index",
+"items":[
+{
+"time":"12:00 PM",
+"name":"MBA 30-Year Mortgage Rate SEP/18",
+"short":"MBA 30-Year Mortgage Rate",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:00 PM",
+"name":"MBA Mortgage Applications SEP/18",
+"short":"MBA Mortgage Applications",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:00 PM",
+"name":"MBA Mortgage Market Index SEP/18",
+"short":"MBA Mortgage Market Index",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:00 PM",
+"name":"MBA Mortgage Refinance Index SEP/18",
+"short":"MBA Mortgage Refinance Index",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"12:00 PM",
+"name":"MBA Purchase Index SEP/18",
+"short":"MBA Purchase Index",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"CA",
+"time":"01:30 PM",
+"cb":false,
+"weekLabel":"New Housing Price Index",
+"items":[
+{
+"time":"01:30 PM",
+"name":"New Housing Price Index MoM AUG",
+"short":"New Housing Price Index",
+"actual":"",
+"previous":"-0.1%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"ZA",
+"time":"02:00 PM",
+"cb":true,
+"weekLabel":"Interest Rate Decision, Prime Overdraft Rate",
+"items":[
+{
+"time":"02:00 PM",
+"name":"Interest Rate Decision",
+"short":"Interest Rate Decision",
+"actual":"",
+"previous":"7%",
+"consensus":"",
+"forecast":"7.25%",
+"cb":true
+},
+{
+"time":"02:00 PM",
+"name":"Prime Overdraft Rate",
+"short":"Prime Overdraft Rate",
+"actual":"",
+"previous":"10.50%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"US",
+"time":"02:45 PM",
+"cb":false,
+"weekLabel":"S&P Global: Composite PMI Flash, Manufacturing PMI Flash, Services PMI Flash",
+"items":[
+{
+"time":"02:45 PM",
+"name":"S&P Global Composite PMI Flash SEP",
+"short":"S&P Global Composite PMI Flash",
+"actual":"",
+"previous":"56",
+"consensus":"",
+"forecast":"55.5",
+"cb":false
+},
+{
+"time":"02:45 PM",
+"name":"S&P Global Manufacturing PMI Flash SEP",
+"short":"S&P Global Manufacturing PMI Flash",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"53",
+"cb":false
+},
+{
+"time":"02:45 PM",
+"name":"S&P Global Services PMI Flash SEP",
+"short":"S&P Global Services PMI Flash",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"56.4",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"03:30 PM",
+"cb":false,
+"weekLabel":"EIA Crude Oil Stocks Change, EIA Gasoline Stocks Change, EIA Crude Oil Imports Change, EIA Cushing Crude Oil Stocks Change, EIA Distillate Fuel Production Change, EIA Distillate Stocks Change, EIA Gasoline Production Change, EIA Heating Oil Stocks Change, EIA Refinery Crude Runs Change",
+"items":[
+{
+"time":"03:30 PM",
+"name":"EIA Crude Oil Stocks Change SEP/18",
+"short":"EIA Crude Oil Stocks Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Gasoline Stocks Change SEP/18",
+"short":"EIA Gasoline Stocks Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Crude Oil Imports Change SEP/18",
+"short":"EIA Crude Oil Imports Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Cushing Crude Oil Stocks Change SEP/18",
+"short":"EIA Cushing Crude Oil Stocks Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Distillate Fuel Production Change SEP/18",
+"short":"EIA Distillate Fuel Production Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Distillate Stocks Change SEP/18",
+"short":"EIA Distillate Stocks Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Gasoline Production Change SEP/18",
+"short":"EIA Gasoline Production Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Heating Oil Stocks Change SEP/18",
+"short":"EIA Heating Oil Stocks Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"03:30 PM",
+"name":"EIA Refinery Crude Runs Change SEP/18",
+"short":"EIA Refinery Crude Runs Change",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"04:30 PM",
+"cb":false,
+"weekLabel":"17-Week Bill Auction",
+"items":[
+{
+"time":"04:30 PM",
+"name":"17-Week Bill Auction",
+"short":"17-Week Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"CA",
+"time":"05:00 PM",
+"cb":false,
+"weekLabel":"10-Year Bond Auction",
+"items":[
+{
+"time":"05:00 PM",
+"name":"10-Year Bond Auction",
+"short":"10-Year Bond Auction",
+"actual":"",
+"previous":"3.707%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"US",
+"time":"06:00 PM",
+"cb":false,
+"weekLabel":"2-Year FRN Auction, 5-Year Note Auction",
+"items":[
+{
+"time":"06:00 PM",
+"name":"2-Year FRN Auction",
+"short":"2-Year FRN Auction",
+"actual":"",
+"previous":"0.055%",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"06:00 PM",
+"name":"5-Year Note Auction",
+"short":"5-Year Note Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[],
+[],
+[]
+]
+},
+{
+"date":"2026-09-24",
+"dow":"Thursday",
+"display":"Thu 24 Sep",
+"allDay":[],
+"hours":[
+[],
+[
+{
+"country":"JP",
+"time":"01:30 AM",
+"cb":false,
+"weekLabel":"S&P Global: Manufacturing PMI Flash, Services PMI Flash, Composite PMI Flash",
+"items":[
+{
+"time":"01:30 AM",
+"name":"S&P Global Manufacturing PMI Flash SEP",
+"short":"S&P Global Manufacturing PMI Flash",
+"actual":"",
+"previous":"54.9",
+"consensus":"",
+"forecast":"54",
+"cb":false
+},
+{
+"time":"01:30 AM",
+"name":"S&P Global Services PMI Flash SEP",
+"short":"S&P Global Services PMI Flash",
+"actual":"",
+"previous":"52.5",
+"consensus":"",
+"forecast":"52",
+"cb":false
+},
+{
+"time":"01:30 AM",
+"name":"S&P Global Composite PMI Flash SEP",
+"short":"S&P Global Composite PMI Flash",
+"actual":"",
+"previous":"53.5",
+"consensus":"",
+"forecast":"52.7",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"AU",
+"time":"02:30 AM",
+"cb":false,
+"weekLabel":"Employment Change, Full Time Employment Chg, Unemployment Rate, Part Time Employment Chg, Participation Rate",
+"items":[
+{
+"time":"02:30 AM",
+"name":"Employment Change AUG",
+"short":"Employment Change",
+"actual":"",
+"previous":"-15.8K",
+"consensus":"",
+"forecast":"15.1K",
+"cb":false
+},
+{
+"time":"02:30 AM",
+"name":"Full Time Employment Chg AUG",
+"short":"Full Time Employment Chg",
+"actual":"",
+"previous":"16.3K",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"02:30 AM",
+"name":"Unemployment Rate AUG",
+"short":"Unemployment Rate",
+"actual":"",
+"previous":"4.5%",
+"consensus":"",
+"forecast":"4.5%",
+"cb":false
+},
+{
+"time":"02:30 AM",
+"name":"Part Time Employment Chg AUG",
+"short":"Part Time Employment Chg",
+"actual":"",
+"previous":"-32.2K",
+"consensus":"",
+"forecast":"",
+"cb":false
+},
+{
+"time":"02:30 AM",
+"name":"Participation Rate AUG",
+"short":"Participation Rate",
+"actual":"",
+"previous":"66.9%",
+"consensus":"",
+"forecast":"66.9%",
+"cb":false
+}
+]
+}
+],
+[],
+[
+{
+"country":"ID",
+"time":"04:00 AM",
+"cb":false,
+"weekLabel":"M2 Money Supply",
+"items":[
+{
+"time":"04:00 AM",
+"name":"M2 Money Supply YoY AUG",
+"short":"M2 Money Supply",
+"actual":"",
+"previous":"8.3%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"EU",
+"time":"05:00 AM",
+"cb":false,
+"weekLabel":"New Car Registrations",
+"items":[
+{
+"time":"05:00 AM",
+"name":"New Car Registrations YoY AUG",
+"short":"New Car Registrations",
+"actual":"",
+"previous":"13.6%",
+"consensus":"",
+"forecast":"11.0%",
+"cb":false
+},
+{
+"time":"05:00 AM",
+"name":"New Car Registrations YoY JUL",
+"short":"New Car Registrations",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"7.5%",
+"cb":false
+}
+]
+}
+],
+[
+{
+"country":"SG",
+"time":"06:00 AM",
+"cb":false,
+"weekLabel":"6-Month T-Bill Auction",
+"items":[
+{
+"time":"06:00 AM",
+"name":"6-Month T-Bill Auction",
+"short":"6-Month T-Bill Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+}
+],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[]
+]
+},
+{
+"date":"2026-09-25",
+"dow":"Friday",
+"display":"Fri 25 Sep",
+"allDay":[],
+"hours":[
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[]
+]
+},
+{
+"date":"2026-09-26",
+"dow":"Saturday",
+"display":"Sat 26 Sep",
+"allDay":[],
+"hours":[
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[]
+]
+},
+{
+"date":"2026-09-27",
+"dow":"Sunday",
+"display":"Sun 27 Sep",
+"allDay":[],
+"hours":[
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[],
+[]
+]
+}
+]
+}
+]
+}
 </script>
-</body>
-</html>
+<!--
+  Tracked earnings tickers (refreshed by a recurring scheduled task — see earnings-data below):
+  AAPL, MSFT, AMZN, GOOGL, META, NVDA, TSLA (Mag 7), 000660.KS (SK Hynix), 005930.KS (Samsung Electronics),
+  TSM (TSMC), CAT, ASML, AVGO (Broadcom), MU (Micron), JPM, GS.
+  Each entry: {ticker, company, date: "YYYY-MM-DD", session: "BMO"|"AMC"|"TBD", note (optional), source (optional URL)}.
+  Only entries whose date falls inside one of the two published weeks below are shown; the row hides itself
+  on a week with no matches. To refresh: replace the array's contents in place and republish this same artifact.
+-->
+<script id="earnings-data" type="application/json">
+[]
+</script>
+<script>
+(function(){
+  var DATA = JSON.parse(document.getElementById('cal-data').textContent);
+  var countryMeta = DATA.countryMeta, regionMeta = DATA.regionMeta, weeks = DATA.weeks;
+  var EARNINGS = JSON.parse(document.getElementById('earnings-data').textContent);
+  var showEarnings = true;
+
+  var activeCountries = new Set();
+  var activeWeek = 0;
+  var searchTerm = '';
+
+  // flat list of all days across both weeks, for day-view prev/next
+  var flatDays = [];
+  weeks.forEach(function(w, wi){ w.days.forEach(function(d, di){ flatDays.push({ date: d.date, weekIdx: wi, dayIdx: di, data: d }); }); });
+  var dayViewIndex = null; // index into flatDays, or null when in week mode
+
+  function hourLabel(h){
+    var ap = h < 12 ? 'AM' : 'PM';
+    var hh = h % 12; if(hh === 0) hh = 12;
+    return hh + ':00 ' + ap;
+  }
+
+  function esc(s){ return String(s).replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+  function fmtVal(v){ return v && v.length ? v : null; }
+
+  // ---- Region & country filter chips ----
+  var regionRow = document.getElementById('regionRow');
+  var countryRow = document.getElementById('countryRow');
+
+  var regionLabelEl = document.createElement('span');
+  regionLabelEl.className = 'filter-label';
+  regionLabelEl.textContent = 'Region';
+  regionRow.appendChild(regionLabelEl);
+
+  var resetBtn = document.createElement('button');
+  resetBtn.className = 'chip-btn reset';
+  resetBtn.textContent = 'All releases';
+  resetBtn.addEventListener('click', function(){ activeCountries.clear(); refresh(); });
+  regionRow.appendChild(resetBtn);
+
+  var regionCountryMap = {};
+  Object.keys(countryMeta).forEach(function(cc){
+    var r = countryMeta[cc].region;
+    (regionCountryMap[r] = regionCountryMap[r] || []).push(cc);
+  });
+
+  function countEvents(cc){
+    var n = 0;
+    weeks.forEach(function(w){
+      w.days.forEach(function(d){
+        d.allDay.forEach(function(g){ if(g.country === cc) n += g.items.length; });
+        d.hours.forEach(function(hr){ hr.forEach(function(g){ if(g.country === cc) n += g.items.length; }); });
+      });
+    });
+    return n;
+  }
+
+  var regionOrder = ['americas','latam','uk','eurozone','europe_other','apac','emea'];
+  var regionBtns = {};
+  regionOrder.forEach(function(r){
+    if(!regionMeta[r]) return;
+    var ccs = regionCountryMap[r] || [];
+    if(!ccs.length) return;
+    var total = ccs.reduce(function(s,cc){ return s + countEvents(cc); }, 0);
+    var btn = document.createElement('button');
+    btn.className = 'chip-btn';
+    btn.style.setProperty('--dot', regionMeta[r].hue);
+    btn.innerHTML = '<span class="dot"></span>' + regionMeta[r].label + ' <span class="n">' + total + '</span>';
+    btn.addEventListener('click', function(){
+      var allOn = ccs.every(function(cc){ return activeCountries.has(cc); }) && ccs.length > 0;
+      if(allOn){ ccs.forEach(function(cc){ activeCountries.delete(cc); }); }
+      else { ccs.forEach(function(cc){ activeCountries.add(cc); }); }
+      refresh();
+    });
+    regionRow.appendChild(btn);
+    regionBtns[r] = btn;
+  });
+
+  var countryLabelEl = document.createElement('span');
+  countryLabelEl.className = 'filter-label';
+  countryLabelEl.textContent = 'Country';
+  countryRow.appendChild(countryLabelEl);
+
+  var countryBtns = {};
+  var countryOrderAll = [];
+  regionOrder.forEach(function(r){
+    if(r === 'eurozone') return; // eurozone is bundled under the single Region-row chip, no per-country buttons
+    (regionCountryMap[r] || []).sort(function(a,b){ return countEvents(b) - countEvents(a); }).forEach(function(cc){
+      countryOrderAll.push(cc);
+    });
+  });
+  countryOrderAll.forEach(function(cc){
+    var meta = countryMeta[cc];
+    var n = countEvents(cc);
+    var btn = document.createElement('button');
+    btn.className = 'chip-btn';
+    btn.title = meta.name;
+    btn.style.setProperty('--dot', meta.color);
+    btn.innerHTML = '<span class="dot"></span>' + cc + ' <span class="n">' + n + '</span>';
+    btn.addEventListener('click', function(){
+      if(activeCountries.has(cc)) activeCountries.delete(cc); else activeCountries.add(cc);
+      refresh();
+    });
+    countryRow.appendChild(btn);
+    countryBtns[cc] = btn;
+  });
+
+  // ---- Week tabs ----
+  var weekTabs = document.getElementById('weekTabs');
+  var weekTabBtns = [];
+  weeks.forEach(function(w, idx){
+    var btn = document.createElement('button');
+    btn.className = 'week-tab' + (idx === 0 ? ' active' : '');
+    btn.innerHTML = w.label + '<span class="r">' + w.range + '</span>';
+    btn.addEventListener('click', function(){
+      activeWeek = idx;
+      weekTabBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.weekpane').forEach(function(p,i){ p.classList.toggle('active', i === idx); });
+      closeDayView(false);
+    });
+    weekTabs.appendChild(btn);
+    weekTabBtns.push(btn);
+  });
+
+  // ---- Block builders ----
+  function ccBadgeHtml(meta, cc){ return esc(cc); }
+
+  var earningsByDate = {};
+  EARNINGS.forEach(function(e){ (earningsByDate[e.date] = earningsByDate[e.date] || []).push(e); });
+  function weekHasEarnings(w){ return w.days.some(function(d){ return (earningsByDate[d.date] || []).length > 0; }); }
+
+  function buildEarnBlock(e){
+    var div = document.createElement('div');
+    div.className = 'earn-block';
+    div.dataset.earnings = '1';
+    div.dataset.name = (e.ticker + ' ' + e.company).toLowerCase();
+    var top = document.createElement('div');
+    top.className = 'earn-top';
+    top.innerHTML = '<span class="earn-ticker">' + esc(e.ticker) + '</span><span class="earn-session">' + esc(e.session || 'TBD') + '</span>';
+    div.appendChild(top);
+    var co = document.createElement('div');
+    co.className = 'earn-company';
+    co.textContent = e.company + (e.note ? ' — ' + e.note : '');
+    div.appendChild(co);
+    return div;
+  }
+
+  function buildEarnRow(days, showLabel){
+    var tr = document.createElement('tr');
+    tr.className = 'earnrow';
+    var th = document.createElement('th');
+    th.className = 'hourlabel';
+    th.textContent = 'Earnings';
+    tr.appendChild(th);
+    days.forEach(function(d){
+      var td = document.createElement('td');
+      var stack = document.createElement('div');
+      stack.className = 'cellstack';
+      (earningsByDate[d.date] || []).forEach(function(e){ stack.appendChild(buildEarnBlock(e)); });
+      td.appendChild(stack);
+      tr.appendChild(td);
+    });
+    return tr;
+  }
+
+  function buildWkBlock(group){
+    var meta = countryMeta[group.country] || { name: group.country, color: '#888', text: '#fff' };
+    var div = document.createElement('div');
+    div.className = 'wk-block' + (group.cb ? ' cb' : '');
+    div.dataset.country = group.country;
+    div.dataset.name = group.items.map(function(it){ return it.name; }).join(' | ').toLowerCase();
+    div.style.setProperty('--cc-color', meta.color);
+    div.style.setProperty('--cc-text', meta.text || '#fff');
+
+    var top = document.createElement('div');
+    top.className = 'wk-top';
+    top.innerHTML = '<span class="wk-cc">' + esc(group.country) + '</span><span class="wk-time">' + esc(group.time) + '</span>' + (group.cb ? '<span class="cb-tag">Rate</span>' : '');
+    div.appendChild(top);
+
+    var label = document.createElement('div');
+    label.className = 'wk-label';
+    label.title = meta.name;
+    label.textContent = group.weekLabel;
+    div.appendChild(label);
+
+    return div;
+  }
+
+  function buildDayBlocksForGroup(group){
+    var meta = countryMeta[group.country] || { name: group.country, color: '#888', text: '#fff' };
+    var frags = [];
+    group.items.forEach(function(it){
+      var div = document.createElement('div');
+      div.className = 'day-block' + (it.cb ? ' cb' : '');
+      div.dataset.country = group.country;
+      div.dataset.name = it.name.toLowerCase();
+      div.style.setProperty('--cc-color', meta.color);
+      div.style.setProperty('--cc-text', meta.text || '#fff');
+
+      var top = document.createElement('div');
+      top.className = 'day-top';
+      top.innerHTML = '<span class="day-cc">' + esc(group.country) + '</span><span class="day-time">' + esc(it.time) + '</span>' + (it.cb ? '<span class="cb-tag">Rate</span>' : '');
+      div.appendChild(top);
+
+      var nameDiv = document.createElement('div');
+      nameDiv.className = 'day-name';
+      nameDiv.textContent = it.name;
+      div.appendChild(nameDiv);
+
+      var vals = [];
+      var a = fmtVal(it.actual), p = fmtVal(it.previous), c = fmtVal(it.consensus), fc = fmtVal(it.forecast);
+      if(a) vals.push('<span><b>A</b>' + esc(a) + '</span>');
+      if(p) vals.push('<span><b>P</b>' + esc(p) + '</span>');
+      if(c) vals.push('<span><b>C</b>' + esc(c) + '</span>');
+      if(fc) vals.push('<span><b>F</b>' + esc(fc) + '</span>');
+      if(vals.length){
+        var valsDiv = document.createElement('div');
+        valsDiv.className = 'day-vals';
+        valsDiv.innerHTML = vals.join('');
+        div.appendChild(valsDiv);
+      }
+      frags.push(div);
+    });
+    return frags;
+  }
+
+  // ---- Build week tables ----
+  var weekPanesEl = document.getElementById('weekPanes');
+  var totalItems = 0;
+
+  weeks.forEach(function(w, wIdx){
+    var pane = document.createElement('div');
+    pane.className = 'weekpane' + (wIdx === 0 ? ' active' : '');
+
+    var scroll = document.createElement('div');
+    scroll.className = 'cal-scroll';
+    var table = document.createElement('table');
+    table.className = 'cal';
+
+    var colgroup = document.createElement('colgroup');
+    colgroup.innerHTML = '<col class="hourcol">' + w.days.map(function(){ return '<col>'; }).join('');
+    table.appendChild(colgroup);
+
+    var thead = document.createElement('thead');
+    var htr = document.createElement('tr');
+    htr.innerHTML = '<th class="hourhead"></th>';
+    w.days.forEach(function(d, dIdx){
+      var isWeekend = d.dow === 'Saturday' || d.dow === 'Sunday';
+      var parts = d.display.split(' ');
+      var th = document.createElement('th');
+      th.className = 'dayheader' + (isWeekend ? ' weekend' : '');
+      th.innerHTML = '<div class="dname">' + d.dow + '</div><div class="ddate">' + parts[1] + ' ' + parts[2] + '</div><div class="expand-hint">double-click to expand &rarr;</div>';
+      th.addEventListener('dblclick', function(){ openDayView(wIdx, dIdx); });
+      htr.appendChild(th);
+    });
+    thead.appendChild(htr);
+    table.appendChild(thead);
+
+    var tbody = document.createElement('tbody');
+
+    if(weekHasEarnings(w)){
+      tbody.appendChild(buildEarnRow(w.days));
+    }
+
+    var adRow = document.createElement('tr');
+    adRow.className = 'allday';
+    var adTh = document.createElement('th');
+    adTh.className = 'hourlabel';
+    adTh.textContent = 'All day';
+    adRow.appendChild(adTh);
+    w.days.forEach(function(d){
+      var td = document.createElement('td');
+      var stack = document.createElement('div');
+      stack.className = 'cellstack';
+      d.allDay.forEach(function(g){ totalItems += g.items.length; stack.appendChild(buildWkBlock(g)); });
+      td.appendChild(stack);
+      adRow.appendChild(td);
+    });
+    tbody.appendChild(adRow);
+
+    for(var h = 0; h < 24; h++){
+      var tr = document.createElement('tr');
+      var th = document.createElement('th');
+      th.className = 'hourlabel';
+      th.textContent = hourLabel(h);
+      tr.appendChild(th);
+      w.days.forEach(function(d){
+        var td = document.createElement('td');
+        var stack = document.createElement('div');
+        stack.className = 'cellstack';
+        d.hours[h].forEach(function(g){ totalItems += g.items.length; stack.appendChild(buildWkBlock(g)); });
+        td.appendChild(stack);
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
+    scroll.appendChild(table);
+    pane.appendChild(scroll);
+    weekPanesEl.appendChild(pane);
+  });
+
+  // ---- Day view ----
+  var dayViewEl = document.getElementById('dayView');
+  var dayViewHead = document.getElementById('dayViewHead');
+  var dayViewBody = document.getElementById('dayViewBody');
+  var dayViewTitle = document.getElementById('dayViewTitle');
+  var prevDayBtn = document.getElementById('prevDayBtn');
+  var nextDayBtn = document.getElementById('nextDayBtn');
+  var backBtn = document.getElementById('backBtn');
+
+  function openDayView(wIdx, dIdx){
+    var flatIdx = flatDays.findIndex(function(fd){ return fd.weekIdx === wIdx && fd.dayIdx === dIdx; });
+    renderDayView(flatIdx);
+  }
+
+  function renderDayView(flatIdx){
+    dayViewIndex = flatIdx;
+    var fd = flatDays[flatIdx];
+    var d = fd.data;
+
+    document.querySelectorAll('.weekpane').forEach(function(p){ p.classList.remove('active'); });
+    dayViewEl.classList.add('active');
+
+    var parts = d.display.split(' ');
+    dayViewTitle.textContent = d.dow + ', ' + parts[1] + ' ' + parts[2] + ' ' + d.date.slice(0,4);
+    dayViewHead.innerHTML = '<div class="dname">' + d.dow + '</div><div class="ddate">' + parts[1] + ' ' + parts[2] + '</div>';
+
+    dayViewBody.innerHTML = '';
+
+    if((earningsByDate[d.date] || []).length > 0){
+      dayViewBody.appendChild(buildEarnRow([d]));
+    }
+
+    var adRow = document.createElement('tr');
+    adRow.className = 'allday';
+    var adTh = document.createElement('th');
+    adTh.className = 'hourlabel';
+    adTh.textContent = 'All day';
+    adRow.appendChild(adTh);
+    var adTd = document.createElement('td');
+    var adStack = document.createElement('div');
+    adStack.className = 'cellstack';
+    d.allDay.forEach(function(g){ buildDayBlocksForGroup(g).forEach(function(b){ adStack.appendChild(b); }); });
+    adTd.appendChild(adStack);
+    adRow.appendChild(adTd);
+    dayViewBody.appendChild(adRow);
+
+    for(var h = 0; h < 24; h++){
+      var tr = document.createElement('tr');
+      var th = document.createElement('th');
+      th.className = 'hourlabel';
+      th.textContent = hourLabel(h);
+      tr.appendChild(th);
+      var td = document.createElement('td');
+      var stack = document.createElement('div');
+      stack.className = 'cellstack';
+      d.hours[h].forEach(function(g){ buildDayBlocksForGroup(g).forEach(function(b){ stack.appendChild(b); }); });
+      td.appendChild(stack);
+      tr.appendChild(td);
+      dayViewBody.appendChild(tr);
+    }
+
+    prevDayBtn.disabled = flatIdx <= 0;
+    nextDayBtn.disabled = flatIdx >= flatDays.length - 1;
+
+    applyFilters();
+  }
+
+  function closeDayView(restoreWeekTab){
+    dayViewIndex = null;
+    dayViewEl.classList.remove('active');
+    document.querySelectorAll('.weekpane').forEach(function(p,i){ p.classList.toggle('active', i === activeWeek); });
+  }
+
+  backBtn.addEventListener('click', function(){
+    var fd = flatDays[dayViewIndex];
+    activeWeek = fd.weekIdx;
+    weekTabBtns.forEach(function(b,i){ b.classList.toggle('active', i === activeWeek); });
+    closeDayView(true);
+  });
+  prevDayBtn.addEventListener('click', function(){ if(dayViewIndex > 0) renderDayView(dayViewIndex - 1); });
+  nextDayBtn.addEventListener('click', function(){ if(dayViewIndex < flatDays.length - 1) renderDayView(dayViewIndex + 1); });
+
+  // ---- Filtering ----
+  var countEl = document.getElementById('count');
+  var searchInput = document.getElementById('search');
+  searchInput.addEventListener('input', function(){
+    searchTerm = searchInput.value.trim().toLowerCase();
+    refresh();
+  });
+
+  var earnToggle = document.getElementById('earnToggle');
+  var earnCountEl = document.getElementById('earnCount');
+  earnCountEl.textContent = EARNINGS.length;
+  earnToggle.style.display = EARNINGS.length ? '' : 'none';
+  earnToggle.addEventListener('click', function(){
+    showEarnings = !showEarnings;
+    refresh();
+  });
+
+  function applyFilters(){
+    var visible = 0;
+    document.querySelectorAll('.wk-block, .day-block').forEach(function(el){
+      var okCountry = activeCountries.size === 0 || activeCountries.has(el.dataset.country);
+      var okSearch = !searchTerm || el.dataset.name.indexOf(searchTerm) !== -1;
+      var show = okCountry && okSearch;
+      el.classList.toggle('hidden', !show);
+      if(show) visible++;
+    });
+    document.querySelectorAll('.earn-block').forEach(function(el){
+      var okSearch = !searchTerm || el.dataset.name.indexOf(searchTerm) !== -1;
+      var show = showEarnings && okSearch;
+      el.classList.toggle('hidden', !show);
+      if(show) visible++;
+    });
+    return visible;
+  }
+
+  function refresh(){
+    Object.keys(countryBtns).forEach(function(cc){
+      countryBtns[cc].classList.toggle('active', activeCountries.has(cc));
+      if(activeCountries.has(cc)){
+        countryBtns[cc].style.background = countryMeta[cc].color;
+        countryBtns[cc].style.color = countryMeta[cc].text || '#fff';
+      } else {
+        countryBtns[cc].style.background = '';
+        countryBtns[cc].style.color = '';
+      }
+    });
+    regionOrder.forEach(function(r){
+      if(!regionBtns[r]) return;
+      var ccs = regionCountryMap[r] || [];
+      var allOn = ccs.length > 0 && ccs.every(function(cc){ return activeCountries.has(cc); });
+      regionBtns[r].classList.toggle('active', allOn);
+      regionBtns[r].style.background = allOn ? regionMeta[r].hue : '';
+      regionBtns[r].style.color = allOn ? (regionMeta[r].text || '#fff') : '';
+    });
+    resetBtn.classList.toggle('active', activeCountries.size === 0);
+    resetBtn.style.background = activeCountries.size === 0 ? 'var(--accent)' : '';
+    resetBtn.style.color = activeCountries.size === 0 ? 'var(--accent-ink)' : '';
+
+    earnToggle.classList.toggle('active', showEarnings);
+    earnToggle.style.background = showEarnings ? '#2a2f38' : '';
+    earnToggle.style.color = showEarnings ? '#f2f4f7' : '';
+
+    var visible = applyFilters();
+    var showingOfWhat = dayViewIndex !== null ? 'this day' : 'all releases';
+    countEl.innerHTML = 'Showing <b>' + visible + '</b> matching blocks';
+  }
+
+  refresh();
+})();
+</script>
