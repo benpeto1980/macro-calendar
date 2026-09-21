@@ -239,8 +239,7 @@
   Built from a Trading Economics economic calendar export. Release times shown as published, already in London time (UTC+1) &mdash; no conversion applied. Saudi Arabia, Russia and Argentina releases are excluded. Week view groups same-hour, same-country releases into one block with no forecast detail &mdash; double-click a day header to open the full single-day view with Actual / Previous / Consensus / Forecast for every release. Central bank rate decisions, MPC/FOMC minutes and press conferences are outlined in red.
 </footer>
 
-<script id="cal-data" type="application/json">
-{
+<script id="cal-data" type="application/json">{
 "countryMeta":{
 "US":{
 "name":"United States",
@@ -323,7 +322,7 @@
 "CH":{
 "name":"Switzerland",
 "region":"europe_other",
-"color":"#e56a98",
+"color":"#ee9ebc",
 "text":"#14181f"
 },
 "NO":{
@@ -335,7 +334,7 @@
 "SE":{
 "name":"Sweden",
 "region":"europe_other",
-"color":"#ee9ebc",
+"color":"#e56a98",
 "text":"#14181f"
 },
 "CZ":{
@@ -1472,7 +1471,26 @@
 ]
 }
 ],
-[],
+[
+{
+"country":"NO",
+"time":"7:00 AM",
+"cb":false,
+"weekLabel":"Unemployment Rate",
+"items":[
+{
+"time":"7:00 AM",
+"name":"Unemployment Rate AUG",
+"short":"Unemployment Rate",
+"actual":"",
+"previous":"4.5%",
+"consensus":"",
+"forecast":"4.2%",
+"cb":false
+}
+]
+}
+],
 [
 {
 "country":"EA",
@@ -1744,6 +1762,34 @@
 }
 ],
 [
+{
+"country":"SE",
+"time":"10:05 AM",
+"cb":false,
+"weekLabel":"2033 SGB Auction, 2037 SGB Auction",
+"items":[
+{
+"time":"10:05 AM",
+"name":"2033 SGB Auction",
+"short":"2033 SGB Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"2.5919%",
+"cb":false
+},
+{
+"time":"10:05 AM",
+"name":"2037 SGB Auction",
+"short":"2037 SGB Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"3.2564%",
+"cb":false
+}
+]
+},
 {
 "country":"DE",
 "time":"10:30 AM",
@@ -2353,6 +2399,24 @@
 ],
 [
 {
+"country":"NO",
+"time":"7:00 AM",
+"cb":false,
+"weekLabel":"Loan Growth",
+"items":[
+{
+"time":"7:00 AM",
+"name":"Loan Growth YoY AUG",
+"short":"Loan Growth",
+"actual":"",
+"previous":"4.3%",
+"consensus":"",
+"forecast":"4.3%",
+"cb":false
+}
+]
+},
+{
 "country":"FR",
 "time":"07:45 AM",
 "cb":false,
@@ -2427,6 +2491,24 @@
 "cb":false
 }
 ]
+},
+{
+"country":"SE",
+"time":"8:30 AM",
+"cb":true,
+"weekLabel":"Interest Rate Decision",
+"items":[
+{
+"time":"8:30 AM",
+"name":"Interest Rate Decision",
+"short":"Interest Rate Decision",
+"actual":"",
+"previous":"1.75%",
+"consensus":"1.75%",
+"forecast":"",
+"cb":true
+}
+]
 }
 ],
 [
@@ -2464,6 +2546,34 @@
 "previous":"89.1",
 "consensus":"",
 "forecast":"88.7",
+"cb":false
+}
+]
+},
+{
+"country":"NO",
+"time":"9:00 AM",
+"cb":true,
+"weekLabel":"Interest Rate Decision, Monetary Policy Report",
+"items":[
+{
+"time":"9:00 AM",
+"name":"Interest Rate Decision",
+"short":"Interest Rate Decision",
+"actual":"",
+"previous":"4.25%",
+"consensus":"",
+"forecast":"4.25%",
+"cb":true
+},
+{
+"time":"9:00 AM",
+"name":"Monetary Policy Report",
+"short":"Monetary Policy Report",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
 "cb":false
 }
 ]
@@ -2521,6 +2631,24 @@
 "consensus":"",
 "forecast":"",
 "cb":false
+}
+]
+},
+{
+"country":"SE",
+"time":"10:00 AM",
+"cb":true,
+"weekLabel":"Riksbank Press Conference",
+"items":[
+{
+"time":"10:00 AM",
+"name":"Riksbank Press Conference",
+"short":"Riksbank Press Conference",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":true
 }
 ]
 },
@@ -3206,6 +3334,44 @@
 ]
 },
 {
+"country":"SE",
+"time":"7:00 AM",
+"cb":false,
+"weekLabel":"Household Lending Growth, PPI",
+"items":[
+{
+"time":"7:00 AM",
+"name":"Household Lending Growth YoY AUG",
+"short":"Household Lending Growth",
+"actual":"",
+"previous":"3.3%",
+"consensus":"",
+"forecast":"3.2%",
+"cb":false
+},
+{
+"time":"7:00 AM",
+"name":"PPI MoM AUG",
+"short":"PPI",
+"actual":"",
+"previous":"0.1%",
+"consensus":"",
+"forecast":"0.4%",
+"cb":false
+},
+{
+"time":"7:00 AM",
+"name":"PPI YoY AUG",
+"short":"PPI",
+"actual":"",
+"previous":"6.4%",
+"consensus":"",
+"forecast":"6.3%",
+"cb":false
+}
+]
+},
+{
 "country":"FR",
 "time":"07:45 AM",
 "cb":false,
@@ -3760,7 +3926,7 @@
 {
 "country":"JP",
 "time":"12:50 AM",
-"cb":false,
+"cb":true,
 "weekLabel":"BoJ Monetary Policy Meeting Minutes",
 "items":[
 {
@@ -3771,7 +3937,7 @@
 "previous":"",
 "consensus":"",
 "forecast":"",
-"cb":false
+"cb":true
 }
 ]
 }
@@ -3839,7 +4005,44 @@
 ]
 }
 ],
-[],
+[
+{
+"country":"NO",
+"time":"7:00 AM",
+"cb":false,
+"weekLabel":"Retail Sales",
+"items":[
+{
+"time":"7:00 AM",
+"name":"Retail Sales MoM AUG",
+"short":"Retail Sales",
+"actual":"",
+"previous":"-0.7%",
+"consensus":"",
+"forecast":"0.2%",
+"cb":false
+}
+]
+},
+{
+"country":"SE",
+"time":"7:00 AM",
+"cb":false,
+"weekLabel":"Balance of Trade",
+"items":[
+{
+"time":"7:00 AM",
+"name":"Balance of Trade AUG",
+"short":"Balance of Trade",
+"actual":"",
+"previous":"SEK1.2B",
+"consensus":"",
+"forecast":"SEK0.5B",
+"cb":false
+}
+]
+}
+],
 [],
 [],
 [
@@ -4446,6 +4649,54 @@
 "cb":false
 }
 ]
+},
+{
+"country":"SE",
+"time":"8:00 AM",
+"cb":false,
+"weekLabel":"Business Confidence, Consumer Confidence, Consumer Inflation Expectations, Economic Tendency Indicator",
+"items":[
+{
+"time":"8:00 AM",
+"name":"Business Confidence SEP",
+"short":"Business Confidence",
+"actual":"",
+"previous":"107.4",
+"consensus":"",
+"forecast":"106",
+"cb":false
+},
+{
+"time":"8:00 AM",
+"name":"Consumer Confidence SEP",
+"short":"Consumer Confidence",
+"actual":"",
+"previous":"98",
+"consensus":"",
+"forecast":"97",
+"cb":false
+},
+{
+"time":"8:00 AM",
+"name":"Consumer Inflation Expectations SEP",
+"short":"Consumer Inflation Expectations",
+"actual":"",
+"previous":"6.8%",
+"consensus":"",
+"forecast":"6.5%",
+"cb":false
+},
+{
+"time":"8:00 AM",
+"name":"Economic Tendency Indicator SEP",
+"short":"Economic Tendency Indicator",
+"actual":"",
+"previous":"105.1",
+"consensus":"",
+"forecast":"104",
+"cb":false
+}
+]
 }
 ],
 [
@@ -4673,6 +4924,24 @@
 "short":"Treasury Gilt 2036 Auction",
 "actual":"",
 "previous":"5.155%",
+"consensus":"",
+"forecast":"",
+"cb":false
+}
+]
+},
+{
+"country":"SE",
+"time":"10:05 AM",
+"cb":false,
+"weekLabel":"T-Bill Auction",
+"items":[
+{
+"time":"10:05 AM",
+"name":"T-Bill Auction",
+"short":"T-Bill Auction",
+"actual":"",
+"previous":"",
 "consensus":"",
 "forecast":"",
 "cb":false
@@ -5615,6 +5884,34 @@
 ]
 },
 {
+"country":"SE",
+"time":"7:00 AM",
+"cb":false,
+"weekLabel":"Retail Sales",
+"items":[
+{
+"time":"7:00 AM",
+"name":"Retail Sales MoM AUG",
+"short":"Retail Sales",
+"actual":"",
+"previous":"-0.2%",
+"consensus":"",
+"forecast":"-0.6%",
+"cb":false
+},
+{
+"time":"7:00 AM",
+"name":"Retail Sales YoY AUG",
+"short":"Retail Sales",
+"actual":"",
+"previous":"6.2%",
+"consensus":"",
+"forecast":"5.4%",
+"cb":false
+}
+]
+},
+{
 "country":"FR",
 "time":"07:45 AM",
 "cb":false,
@@ -5767,6 +6064,24 @@
 "consensus":"",
 "forecast":"",
 "cb":false
+}
+]
+},
+{
+"country":"SE",
+"time":"8:30 AM",
+"cb":true,
+"weekLabel":"Monetary Policy Meeting Minutes",
+"items":[
+{
+"time":"8:30 AM",
+"name":"Monetary Policy Meeting Minutes",
+"short":"Monetary Policy Meeting Minutes",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
+"cb":true
 }
 ]
 },
@@ -6030,6 +6345,24 @@
 "previous":"3.2%",
 "consensus":"",
 "forecast":"3.5%",
+"cb":false
+}
+]
+},
+{
+"country":"SE",
+"time":"10:05 AM",
+"cb":false,
+"weekLabel":"SGB Auction",
+"items":[
+{
+"time":"10:05 AM",
+"name":"SGB Auction",
+"short":"SGB Auction",
+"actual":"",
+"previous":"",
+"consensus":"",
+"forecast":"",
 "cb":false
 }
 ]
@@ -7096,7 +7429,26 @@
 ]
 }
 ],
-[],
+[
+{
+"country":"SE",
+"time":"7:30 AM",
+"cb":false,
+"weekLabel":"Swedbank Manufacturing PMI",
+"items":[
+{
+"time":"7:30 AM",
+"name":"Swedbank Manufacturing PMI SEP",
+"short":"Swedbank Manufacturing PMI",
+"actual":"",
+"previous":"56.1",
+"consensus":"",
+"forecast":"54.6",
+"cb":false
+}
+]
+}
+],
 [],
 [],
 [],
@@ -7128,7 +7480,36 @@
 [],
 [],
 [],
-[],
+[
+{
+"country":"NO",
+"time":"7:00 AM",
+"cb":false,
+"weekLabel":"Registered Jobless Rate, Unemployed Persons",
+"items":[
+{
+"time":"7:00 AM",
+"name":"Registered Jobless Rate SEP",
+"short":"Registered Jobless Rate",
+"actual":"",
+"previous":"2.1%",
+"consensus":"",
+"forecast":"2.1%",
+"cb":false
+},
+{
+"time":"7:00 AM",
+"name":"Unemployed Persons SEP",
+"short":"Unemployed Persons",
+"actual":"",
+"previous":"62.1K",
+"consensus":"",
+"forecast":"62.3K",
+"cb":false
+}
+]
+}
+],
 [],
 [],
 [],
@@ -7214,8 +7595,7 @@
 ]
 }
 ]
-}
-</script>
+}</script>
 <!--
   Tracked earnings tickers (refreshed by a recurring scheduled task — see earnings-data below):
   AAPL, MSFT, AMZN, GOOGL, META, NVDA, TSLA (Mag 7), 000660.KS (SK Hynix), 005930.KS (Samsung Electronics),
